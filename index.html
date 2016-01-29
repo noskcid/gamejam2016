@@ -2,33 +2,135 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>hello phaser!</title>
-        <script src="js/phaser.min.js"></script>
+        <title>Immortals</title>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+	<script type="text/javascript">
+		year = 0;
+		pop = 2;
+		pop_sigma = 5;
+		farming = 0;
+		fishing = 0;
+		available = 10;
+
+		j = 0.5;
+		g = 0.5;
+		h = 0.5;
+		i = 0.5;
+		f = 0.5;
+		e = 0.5;
+		d = 0.5;
+		c = 0.4;
+		b = 0.4;
+		a = 0.4;
+
+		happiness = 0;
+		faith = 0;
+		overcrowding = 0;
+		health = 0;
+		illness = 0;
+		water = 0;
+		nutrition = 0;
+
+		people_per_house = 4;
+		number_of_houses = 1;
+
+		function update() {
+			year += 1;
+			//pop += Math.floor((Math.random() * pop_sigma) + 1);
+			$("#year").text(year);
+			
+			happiness = 100 - j*(100 - faith) 
+			overcrowding = pop - people_per_house * number_of_houses;
+			health = (100 - g*overcrowding - h*illness - i*water);
+			birthrate = pop * (d*health + e*nutrition + f*happiness);
+			deathrate = pop * (a*health + b*nutrition + c*happiness);
+			delta_population = birthrate - deathrate;
+			pop = pop + delta_population;
+
+			$("#happiness").text(happiness);
+			$("#overcrowding").text(overcrowding);
+			$("#health").text(health);
+			$("#birthrate").text(birthrate);
+			$("#deathrate").text(deathrate);
+			$("#deltapopulation").text(delta_population);
+			$("#pop").text(pop);
+
+
+
+		}
+
+		$(document).ready(function () {
+			// Grid height correction for Colour
+			//$("#colour").height($("#rain").height());
+
+			// Update every minute
+			interval = setInterval(function(){
+				update();
+			}, 1000);
+
+			$('input.farming').click(function (event) {
+				if (event.target.id == 'plus') {
+					if (available > 0) {
+						farming += 1;
+						available -= 1;
+					}
+				} else {
+					if (farming > 0) {
+						farming -= 1;
+						available += 1;
+					}
+				}
+				$("#farming").text(farming);	
+			});
+			$('input.fishing').click(function (event) {
+				if (event.target.id == 'plus') {
+					if (available > 0) {
+						fishing += 1;
+						available -= 1;
+					}
+				} else {
+					if (farming > 0) {
+						fishing -= 1;
+						available += 1;
+					}
+				}
+				$("#fishing").text(fishing);	
+			});
+
+
+		});
+
+		
+	</script>
     </head>
     <body>
+	<p>Year: <span id="year"></span> Population: <span id="pop"></span></p>
+	<h3>Metrics</h3>
+	<p>Happiness: <span id="happiness"></span></p>
+	<p>Overcrowding: <span id="overcrowding"></span></p>
+	<p>Health: <span id="health"></span></p>
+	<p>Birthrate: <span id="birthrate"></span></p>
+	<p>Deathrate: <span id="deathrate"></span></p>
+	<p>Delta Population: <span id="deltapopulation"></span></p>
 
-    <script type="text/javascript">
 
-    window.onload = function() {
 
-        var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create });
+	<h3>Control</h3>
+	<p>Farming: <span id="farming">0</span>
+		<input class="farming" id="plus" type="submit" value="+">
+		<input class="farming" id="minus" type="submit" value="-">
+	</p>
+	<p>Fishing: <span id="fishing">0</span>
+		<input class="fishing" id="plus" type="submit" value="+">
+		<input class="fishing" id="minus" type="submit" value="-">
+	</p>
+	<p>Livestock: </p>
+	<p>Irrigation: </p>
+	<p>Transport: </p>
+	<p>Wood: </p>
+	<p>Stone: </p>
+	<p>Worship: </p>
+	<p>Leisure: </p>
 
-        function preload () {
-
-            game.load.image('logo', 'images/phaser.png');
-
-        }
-
-        function create () {
-
-            var logo = game.add.sprite(game.world.centerX, game.world.centerY, 'logo');
-            logo.anchor.setTo(0.5, 0.5);
-
-        }
-
-    };
-
-    </script>
-
-    </body>
+	 </body>
 </html>
