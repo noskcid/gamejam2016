@@ -3,6 +3,12 @@
     <head>
         <meta charset="UTF-8" />
         <title>Immortals</title>
+	<style>
+		canvas {
+			display: block;
+			background-color: rgba(159, 216, 251, 1);
+		}
+	</style>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 	<script src="js/engine.js"></script>
 	<script type="text/javascript">
@@ -17,10 +23,13 @@
 
 		$(document).ready(function () {
 			var context = document.getElementById('game').getContext("2d");
-	
+			var centerX = 900 / 2;
+      		var centerY = 500 / 2;
+			console.log(centerX);
+
 			var img = new Image();
 			img.onload = function () {
-    			context.drawImage(img, 300-(178/2), 150-(99/2));
+    			context.drawImage(img, centerX-(178/2), centerY-(99/2));
 			}
 			img.src = "images/house.png";
 
@@ -36,6 +45,26 @@
       		context.lineWidth = 2;
       		context.strokeStyle = '#000000';
       		context.stroke();
+
+
+			var thumbImg = new Image();
+			thumbImg.src = "images/gods/cupid.jpg";
+			thumbImg.onload = function() {
+    			//tmpCtx.save();
+    			//tmpCtx.beginPath();
+    			//tmpCtx.arc(25, 25, 25, 0, Math.PI * 2, true);
+    			//tmpCtx.closePath();
+    			//tmpCtx.clip();
+
+    			context.drawImage(thumbImg, 0, 0, 50, 50);
+
+    			//tmpCtx.beginPath();
+    			//tmpCtx.arc(0, 0, 25, 0, Math.PI * 2, true);
+    			//tmpCtx.clip();
+    			//tmpCtx.closePath();
+    			//tmpCtx.restore();
+			};
+
 
 			// Grid height correction for Colour
 			//$("#colour").height($("#rain").height());
@@ -83,7 +112,7 @@
     </head>
     <body>
 	<p>Year: <span id="year"></span> Population: <span id="pop"></span></p>
-	<canvas id="game" width="600" height="300" style="border:1px solid #000000">
+	<canvas id="game" width="900px" height="500px" style="border:1px solid #000000">
 	
 	</canvas>
 	<h3>Metrics</h3>
