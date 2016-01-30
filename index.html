@@ -6,7 +6,7 @@
 	<style>
 		canvas {
 			display: block;
-			background-color: rgba(159, 216, 251, 1);
+			background-color: rgba(251, 238, 206, 1);
 			padding-left: 0;
 			padding-right: 0;
 			margin-left: auto;
@@ -19,6 +19,9 @@
 		farming = 0;
 		fishing = 0;
 		available = 10;
+		
+		var yellowGradient;
+
 		var context;
 		var canvasW;
 		var canvasH;
@@ -41,6 +44,9 @@
 
 			house_img = new Image();
 			house_img.src = "images/house.png";
+			tile_img = new Image();
+			tile_img.src = "images/tile.png";
+
 		}
 		
 		function redraw() {
@@ -57,11 +63,33 @@
       		ct.lineWidth = 5;
       		ct.strokeStyle = '#6f97af';
       		ct.stroke();
+
+			ct.beginPath();
+      		ct.arc(x+r*0.8, y+r*0.8, r/3, 0, 2 * Math.PI, false);
+      		ct.fillStyle = yellowGradient;
+      		ct.fill();
+      		ct.lineWidth = 4;
+      		ct.strokeStyle = '#6f97af';
+      		ct.stroke();
+			
+			ct.fillStyle = '#000000';
+			ct.font = "16px Arial";
+			ct.fillText("+0",x+r*0.8-6,y+r*0.8+5);
+
 		}
 
 		function draw() {
-			context.drawImage(house_img, centerX-(178/2), centerY-(99/2));
+			house_w = 178;
+			house_h = 99;
+			context.drawImage(house_img, centerX-(house_w/2), centerY-(house_h/2));
 			
+			tile_w = 150;
+			tile_h = 82.5;
+			context.drawImage(tile_img, centerX, centerY);
+			context.drawImage(tile_img, centerX+tile_w/2, centerY+tile_h/2);
+			context.drawImage(tile_img, centerX-tile_w/2, centerY+tile_h/2);
+			context.drawImage(tile_img, centerX, centerY+tile_h);
+
 			//var pattern = context.createPattern(cupid_img, 'no-repeat');
 			drawGod(context,cupid_img,50,50,50);
 			drawGod(context,loki_img,150,50,50);
@@ -118,10 +146,12 @@
 
 			// Create fill gradient
 			/*
-			var gradient = context.createLinearGradient(0, 0, 0, 5);
-			gradient.addColorStop(0, "#ffc821");
-			gradient.addColorStop(1, "#faf100");
+			*/
+			yellowGradient = context.createLinearGradient(0, 0, 0, 5);
+			yellowGradient.addColorStop(0, "#ffc821");
+			yellowGradient.addColorStop(1, "#faf100");
 
+			/*
 			context.beginPath();
       		context.arc(15, 15, 10, 0, 2 * Math.PI, false);
       		context.fillStyle = gradient;
