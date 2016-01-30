@@ -43,7 +43,7 @@ var year = 0;
 
 
 // Constants
-var FOOD_COST = 0.3;
+var FOOD_COST = 0.1;
 var GENERAL_SEXUAL_ACTIVITY = 0.1;
 var HOUSE_WOOD_COST = 3;
 var HOUSE_STONE_COST = 3;
@@ -51,9 +51,9 @@ var HOUSE_STONE_COST = 3;
 
 function update() {
 	updateParameters();
-	updateGods();
 	updateResources();
 	updatePopulation();
+	updateGods();
 	year += 1;
 }
 
@@ -82,7 +82,11 @@ function updatePopulation() {
 		r_stone -= HOUSE_STONE_COST;
 	}
 
-	if (population <= population_CAP) {
+	if (r_food < 0) {
+		if (p_death <= 0.5) {
+			p_death = 0.5
+		}
+	} else if (population <= population_CAP){
 		population += p_birth - p_death + p_healing + GENERAL_SEXUAL_ACTIVITY;
 	}
 }
