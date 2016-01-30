@@ -7,6 +7,10 @@
 		canvas {
 			display: block;
 			background-color: rgba(159, 216, 251, 1);
+			padding-left: 0;
+			padding-right: 0;
+			margin-left: auto;
+			margin-right: auto;
 		}
 	</style>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
@@ -15,25 +19,76 @@
 		farming = 0;
 		fishing = 0;
 		available = 10;
+		var context;
+		var centerX;
+		var centerY;
+		var cupid_img;
+		var house_img;
+
+		function loadImages() {
+			cupid_img = new Image();
+			cupid_img.src = "images/gods/resized/cupid_cropped_backup.jpg";
+			cupid_img2 = new Image();
+			cupid_img2.src = "images/gods/resized/cupid_cropped.jpg";
+			house_img = new Image();
+			house_img.src = "images/house.png";
+		}
 		
 		function redraw() {
 			$("#year").text(year);
 			$("#pop").text(population);
 		}
 
-		$(document).ready(function () {
-			var context = document.getElementById('game').getContext("2d");
-			var centerX = 900 / 2;
-      		var centerY = 500 / 2;
-			console.log(centerX);
+		function draw() {
+			context.drawImage(house_img, centerX-(178/2), centerY-(99/2));
+			
+			var pattern = context.createPattern(cupid_img, 'repeat');
 
+			context.beginPath();
+      		context.arc(100, 100, 100, 0, 2 * Math.PI, false);
+      		context.fillStyle = pattern;
+      		context.fill();
+      		context.lineWidth = 2;
+      		context.strokeStyle = '#000000';
+      		context.stroke();
+
+			context.drawImage(cupid_img2, 200,100);
+
+			/*
+			context.save();
+    		context.beginPath();
+    		context.arc(25, 25, 25, 0, Math.PI * 2, true);
+    		context.closePath();
+    		context.clip();
+
+    		context.drawImage(cupid_img, 0, 0, 50, 50);
+
+    		context.beginPath();
+    		context.arc(0, 0, 25, 0, Math.PI * 2, true);
+    		context.clip();
+    		context.closePath();
+    		context.restore();
+			*/
+
+		}
+		
+		loadImages();
+
+		$(document).ready(function () {
+			context = document.getElementById('game').getContext("2d");
+			centerX = 1300 / 2;
+      		centerY = 700 / 2;
+			
+			/*
 			var img = new Image();
 			img.onload = function () {
     			context.drawImage(img, centerX-(178/2), centerY-(99/2));
 			}
 			img.src = "images/house.png";
+			*/
 
 			// Create fill gradient
+			/*
 			var gradient = context.createLinearGradient(0, 0, 0, 5);
 			gradient.addColorStop(0, "#ffc821");
 			gradient.addColorStop(1, "#faf100");
@@ -48,7 +103,7 @@
 
 
 			var thumbImg = new Image();
-			thumbImg.src = "images/gods/cupid.jpg";
+			thumbImg.src = "images/gods/resized/cupid_cropped.jpg";
 			thumbImg.onload = function() {
     			//tmpCtx.save();
     			//tmpCtx.beginPath();
@@ -64,7 +119,7 @@
     			//tmpCtx.closePath();
     			//tmpCtx.restore();
 			};
-
+			*/
 
 			// Grid height correction for Colour
 			//$("#colour").height($("#rain").height());
@@ -107,12 +162,17 @@
 
 		});
 
+		$(window).on("load", function() {
+    		console.log("All images loaded");
+			draw();
+		});
+
 		
 	</script>
     </head>
     <body>
 	<p>Year: <span id="year"></span> Population: <span id="pop"></span></p>
-	<canvas id="game" width="900px" height="500px" style="border:1px solid #000000">
+	<canvas id="game" width="1300px" height="700px" style="border:1px solid #000000">
 	
 	</canvas>
 	<h3>Metrics</h3>
