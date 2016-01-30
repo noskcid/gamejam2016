@@ -5,7 +5,7 @@
 		<script src="js/engine.js"></script>
 		<script type="text/javascript">
 
-		var availableWorkers = 5;
+		var availableWorkers = 3;
 
 			function redraw() {
 				$("#p_death").text(parseFloat(p_death).toFixed(2));
@@ -40,7 +40,7 @@
 			}
 			
 			$(document).ready(function() {
-				//setStartingValues();
+				setStartingValues();
 				redraw();
 				// Update every minute
 				interval = setInterval(function(){
