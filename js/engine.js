@@ -76,7 +76,7 @@ function updatePopulation(){
 		r_stone -= HOUSE_STONE_COST;
 	}
 	
-	if (populaton <= population_CAP){
+	if (population <= population_CAP){
 		population += p_birth - p_death + p_healing + GENERAL_SEXUAL_ACTIVITY;
 	}
 }

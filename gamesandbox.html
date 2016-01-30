@@ -1,0 +1,83 @@
+<html>
+<head>
+	<title>Sandbox</title>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+	<script src="js/engine.js"></script>
+	<script type="text/javascript">
+		function redraw() {
+			$("#p_death").text(p_death);
+			$("#p_birth").text(p_birth);
+			$("#p_healing").text(p_healing);
+			$("#p_peace").text(p_peace);
+			$("#p_war").text(p_war);
+			$("#p_construction").text(p_construction);
+			$("#p_honor").text(p_honor);
+			$("#p_mischief").text(p_mischief);
+			
+			$("#j_brewery").text(j_brewery);
+			$("#j_apothecary").text(j_apothecary);
+			$("#j_raid").text(j_raid);
+			$("#j_build").text(j_build);
+			$("#j_worship").text(j_worship);
+			$("#j_woodcutter").text(j_woodcutter);
+			$("#j_stoneMason").text(j_stoneMason);
+			$("#j_farmer").text(j_farmer);
+
+			$("#r_wood").text(r_wood);
+			$("#r_stone").text(r_stone);
+			$("#r_food").text(r_food);
+
+			$("#population").text(population);
+			$("#population_CAP").text(population_CAP);
+			$("#year").text(year);
+
+		}
+
+		$(document).ready(function() {
+			redraw();
+			// Update every minute
+			interval = setInterval(function(){
+				update();
+				redraw();
+			}, 1000);
+		});
+	</script>
+</head>
+<body>
+	<h3>Parameters</h3>
+	<p>p_death: <span id="p_death"></span></p>
+	<p>p_birth: <span id="p_birth"></span></p>
+	<p>p_healing: <span id="p_healing"></span></p>
+	<p>p_peace: <span id="p_peace"></span></p>
+	<p>p_war: <span id="p_war"></span></p>
+	<p>p_construction: <span id="p_construction"></span></p>
+	<p>p_honor: <span id="p_honor"></span></p>
+	<p>p_mischief: <span id="p_mischief"></span></p>
+
+	<h3>Jobs</h3>
+	<p>j_brewery: <span id="j_brewery"></span></p>
+	<p>j_apothecary: <span id="j_apothecary"></span></p>
+	<p>j_raid: <span id="j_raid"></span></p>
+	<p>j_build: <span id="j_build"></span></p>
+	<p>j_worship: <span id="j_worship"></span></p>
+	<p>j_woodcutter: <span id="j_woodcutter"></span></p>
+	<p>j_stoneMason: <span id="j_stoneMason"></span></p>
+	<p>j_farmer: <span id="j_farmer"></span></p>
+
+	<h3>Resources</h3>
+	<p>r_wood: <span id="r_wood"></span></p>
+	<p>r_stone: <span id="r_stone"></span></p>
+	<p>r_food: <span id="r_food"></span></p>
+
+	<h3>General</h3>
+	<p>population: <span id="population"></span></p>
+	<p>population_CAP: <span id="population_CAP"></span></p>
+	<p>year: <span id="year"></span></p>
+
+
+
+
+
+	
+</body>
+</html>
