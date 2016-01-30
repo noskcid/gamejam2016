@@ -78,6 +78,7 @@
 		var house_img;
 		var god_mouseover = 0;
 		var background_audio;
+		var mine_audio;
 
 		function loadImages() {
 			cupid_img = new Image();
@@ -97,7 +98,23 @@
 		}
 
 		function loadAudio() {
-			
+			background_audio = new Audio('Audio/folkloop.mp3');
+			/*
+			background_audio.addEventListener('ended', function() {
+    			this.currentTime = 0;
+    			this.play();
+			}, false);
+			*/
+			background_audio.loop = true;
+			background_audio.volume = 0.5
+			//background_audio.play();
+
+			mine_audio = new Audio('Audio/Toby - Oggs/DownTheMinesIGo.ogg');
+		}
+
+		function playClip(audio) {
+			audio.currentTime = 0;
+			audio.play();
 		}
 		
 		function redraw() {
@@ -229,6 +246,7 @@
 		}
 		
 		loadImages();
+		loadAudio();
 
 		$(document).ready(function () {
 			canvas = document.getElementById('game');
@@ -314,6 +332,7 @@
 						$("#j_woodcutter").text(j_woodcutter);
 					}
 					else if (event.target.id == 'stoneMason') {
+						playClip(mine_audio);
 						j_stoneMason += 0.1;
 						$("#j_stoneMason").text(j_stoneMason);
 					}
