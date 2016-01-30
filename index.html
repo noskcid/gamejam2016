@@ -75,7 +75,20 @@
 		var centerX;
 		var centerY;
 		var cupid_img;
-		var house_img;
+		var church_tracker = 0;
+		var church_img;
+		var farm_tracker = 0;
+		var farm_img;
+		var alcohol_tracker = 0;
+		var alcohol_img;
+		var apoth_tracker = 0;
+		var apoth_img;
+		var raid_tracker = 0;
+		var raid_img;
+		var stone_img;
+		var wood_img;
+		
+		
 		var god_mouseover = 0;
 
 		function loadImages() {
@@ -92,6 +105,90 @@
 
 			tile_img = new Image();
 			tile_img.src = "images/tile.png";
+			
+			church_img = new Array();
+			church_img[0] = new Image();
+			church_img[0].src = "images/workingfolder/praise/churchclear.png";
+			church_img[1] = new Image();
+			church_img[1].src = "images/workingfolder/praise/s1.png";
+			church_img[2] = new Image();
+			church_img[2].src = "images/workingfolder/praise/s2.png";
+			church_img[3] = new Image();
+			church_img[3].src = "images/workingfolder/praise/s3.png";
+			church_img[4] = new Image();
+			church_img[4].src = "images/workingfolder/praise/s4.png";
+			church_img[5] = new Image();
+			church_img[5].src = "images/workingfolder/praise/s5.png";
+			
+			farm_img = new Array();
+			farm_img[0] = new Image();
+			farm_img[0].src = "images/workingfolder/farm/s12.png";
+			farm_img[1] = new Image();
+			farm_img[1].src = "images/workingfolder/farm/s0.png";
+			farm_img[2] = new Image();
+			farm_img[2].src = "images/workingfolder/farm/s1.png";
+			farm_img[3] = new Image();
+			farm_img[3].src = "images/workingfolder/farm/s2.png";
+			farm_img[4] = new Image();
+			farm_img[4].src = "images/workingfolder/farm/s3.png";
+			farm_img[5] = new Image();
+			farm_img[5].src = "images/workingfolder/farm/s4.png";
+			farm_img[6] = new Image();
+			farm_img[6].src = "images/workingfolder/farm/s6.png";
+			farm_img[7] = new Image();
+			farm_img[7].src = "images/workingfolder/farm/s9.png";
+			farm_img[8] = new Image();
+			farm_img[8].src = "images/workingfolder/farm/s11.png";
+
+			alcohol_img = new Array();
+			alcohol_img[0] = new Image();
+			alcohol_img[0].src = "images/workingfolder/alcohol/aclear.png";
+			alcohol_img[1] = new Image();
+			alcohol_img[1].src = "images/workingfolder/alcohol/a0.png";
+			alcohol_img[2] = new Image();
+			alcohol_img[2].src = "images/workingfolder/alcohol/a1.png";
+			alcohol_img[3] = new Image();
+			alcohol_img[3].src = "images/workingfolder/alcohol/a2.png";
+			
+			apoth_img = new Array();
+			apoth_img[0] = new Image();
+			apoth_img[0].src = "images/workingfolder/apoth/apothempty.png";
+			apoth_img[1] = new Image();
+			apoth_img[1].src = "images/workingfolder/apoth/a0.png";
+			apoth_img[2] = new Image();
+			apoth_img[2].src = "images/workingfolder/apoth/a1.png";
+			apoth_img[3] = new Image();
+			apoth_img[3].src = "images/workingfolder/apoth/a2.png";
+			apoth_img[4] = new Image();
+			apoth_img[4].src = "images/workingfolder/apoth/a3.png";
+			apoth_img[5] = new Image();
+			apoth_img[5].src = "images/workingfolder/apoth/a4.png";
+
+			raid_img = new Array();
+			raid_img[0] = new Image();
+			raid_img[0].src = "images/tile.png";
+			raid_img[1] = new Image();
+			raid_img[1].src = "images/workingfolder/raid/r0.png";
+			raid_img[2] = new Image();
+			raid_img[2].src = "images/workingfolder/raid/r1.png";
+			raid_img[3] = new Image();
+			raid_img[3].src = "images/workingfolder/raid/r2.png";
+			
+			stone_img = new Array();
+			stone_img[0] = new Image();
+			stone_img[0].src = "images/workingfolder/Stone/s0.png";
+			stone_img[1] = new Image();
+			stone_img[1].src = "images/workingfolder/Stone/s1.png";
+			stone_img[2] = new Image();
+			stone_img[2].src = "images/workingfolder/Stone/s2.png";
+
+			wood_img = new Array();
+			wood_img[0] = new Image();
+			wood_img[0].src = "images/workingfolder/wood/0/w0.png";
+			wood_img[1] = new Image();
+			wood_img[1].src = "images/workingfolder/wood/0/w1.png";
+			wood_img[2] = new Image();
+			wood_img[2].src = "images/workingfolder/wood/0/w2.png";
 
 		}
 		
@@ -155,12 +252,12 @@
 			} else {
 				god_mouseover = 0;
 			}
-			draw();
+			drawGodBar();
 
 		}
 
-		function draw() {
-			context.clearRect(0, 0, canvasW, canvasH);
+		function drawTiles() {
+			context.clearRect(0, 115, canvasW, canvasH);
 			house_w = 178;
 			house_h = 99;
 			//context.drawImage(house_img, centerX-(house_w/2), centerY-(house_h/2));
@@ -170,28 +267,92 @@
 			tiles_x = 3;
 			tiles_y = 3;
 			
-			context.drawImage(tile_img, centerX-tile_w/2, centerY-3*tile_h/2);
 			
-			context.drawImage(tile_img, centerX-2*tile_w/2, centerY-tile_h);
-			context.drawImage(tile_img, centerX, centerY-tile_h);
+			if (j_worship > 0) {
+				church_tracker = (church_tracker + 1) % church_img.length;
+				if (church_tracker == 0) {
+					church_tracker++;
+				}
+			} 
+			else {
+				church_tracker = 0;
+			}
+			context.drawImage(church_img[church_tracker], centerX-tile_w/2, centerY-3*tile_h/2);
+			
+			if (j_farmer > 0) {
+				farm_tracker = (farm_tracker + 1) % farm_img.length;
+			}
+			else {
+				farm_tracker = 0;
+			}
+			context.drawImage(farm_img[farm_tracker], centerX-2*tile_w/2, centerY-tile_h);
+			
+			if (j_brewery > 0) {
+				alcohol_tracker = (alcohol_tracker + 1) % alcohol_img.length;
+				if (alcohol_tracker == 0) {
+					alcohol_tracker++;
+				}
+			}
+			else {
+				alcohol_tracker = 0;
+			}
+			context.drawImage(alcohol_img[alcohol_tracker], centerX, centerY-tile_h);
 
 			context.drawImage(tile_img, centerX-3*tile_w/2, centerY-tile_h/2);
-			context.drawImage(tile_img, centerX-tile_w/2, centerY-tile_h/2);
+			
+			if (j_apothecary > 0) {
+				apoth_tracker = (apoth_tracker + 1) % apoth_img.length;
+				if (apoth_tracker == 0) {
+					apoth_tracker++;
+				}
+			}
+			else {
+				apoth_tracker = 0;
+			}
+			context.drawImage(apoth_img[apoth_tracker], centerX-tile_w/2, centerY-tile_h/2);
+			
 			context.drawImage(tile_img, centerX+tile_w/2, centerY-tile_h/2);
 
-			context.drawImage(tile_img, centerX-2*tile_w/2, centerY);
-			context.drawImage(tile_img, centerX, centerY);
-
-			context.drawImage(tile_img, centerX-tile_w/2, centerY+tile_h/2);
-
+			if (j_raid > 0) {
+				raid_tracker = (raid_tracker + 1) % raid_img.length;
+				if (raid_tracker == 0) {
+					raid_tracker++;
+				}
+			}
+			else {
+				raid_tracker = 0;
+			}
+			context.drawImage(raid_img[raid_tracker], centerX-2*tile_w/2, centerY);
+			
+			if (r_wood < 1) {
+				context.drawImage(tile_img, centerX, centerY);
+			}
+			else if (r_wood < 2) {
+				context.drawImage(wood_img[0], centerX, centerY);
+			}
+			else if (r_wood < 3) {
+				context.drawImage(wood_img[1], centerX, centerY);
+			}
+			else {
+				context.drawImage(wood_img[2], centerX, centerY);
+			}
+			
+			if (r_stone < 1) {
+				context.drawImage(tile_img, centerX-tile_w/2, centerY+tile_h/2);
+			}
+			else if (r_stone < 2) {
+				context.drawImage(stone_img[0], centerX-tile_w/2, centerY+tile_h/2);
+			}
+			else if (r_stone < 3) {
+				context.drawImage(stone_img[1], centerX-tile_w/2, centerY+tile_h/2);
+			}
+			else {
+				context.drawImage(stone_img[2], centerX-tile_w/2, centerY+tile_h/2);
+			}
 
 			
 			//var pattern = context.createPattern(cupid_img, 'no-repeat');
-			drawGod(context,cupid_img,55,55,50);
-			drawGod(context,loki_img,155,55,50);
-			drawGod(context,hades_img,255,55,50);
-			drawGod(context,thor_img,355,55,50);
-			drawGod(context,athena_img,455,55,50);
+			
 
 			/*
 			context.beginPath();
@@ -221,6 +382,15 @@
     		context.restore();
 			*/
 
+		}
+		
+		function drawGodBar() {
+			context.clearRect(0, 0, canvasW, 110);
+			drawGod(context,cupid_img,55,55,50);
+			drawGod(context,loki_img,155,55,50);
+			drawGod(context,hades_img,255,55,50);
+			drawGod(context,thor_img,355,55,50);
+			drawGod(context,athena_img,455,55,50);
 		}
 		
 		loadImages();
@@ -285,6 +455,10 @@
 				update();
 				redraw();
 			}, 1000);
+			
+			tileInterval = setInterval(function(){
+				drawTiles();
+			}, 200);
 
 			$('input.plus').click(function (event) {
 				if (available > 0) {
@@ -377,7 +551,8 @@
 
 		$(window).on("load", function() {
     		console.log("All images loaded");
-			draw();
+			drawGodBar();
+			drawTiles();
 		});
 
 		
