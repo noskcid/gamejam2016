@@ -1,0 +1,30 @@
+{
+  "town": {
+    "playername": "Tony",
+    "God": "Hades",
+    "name": "York",
+    "year": 0,
+    "population": 2,
+    "population_CAP": 10,
+    "p_death": 0,
+    "p_birth": 0,
+    "p_healing": 0,
+    "p_peace": 0,
+    "p_war": 0,
+    "p_construction": 0,
+    "p_destruction": 0,
+    "p_honor": 0,
+    "p_mischief": 0,
+    "j_brewery": 0,
+    "j_apothecary": 0,
+    "j_raid": 0,
+    "j_build": 0,
+    "j_worship": 0,
+    "j_woodcutter": 0,
+    "j_stoneMason": 0,
+    "j_farmer": 0,
+    "r_wood": 0,
+    "r_stone": 0,
+    "r_food": 0
+  }
+}
