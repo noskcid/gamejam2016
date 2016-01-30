@@ -47,6 +47,9 @@ var FOOD_COST = 0.1;
 var GENERAL_SEXUAL_ACTIVITY = 0.1;
 var HOUSE_WOOD_COST = 3;
 var HOUSE_STONE_COST = 3;
+var WOOD_LIMIT = 99;
+var STONE_LIMIT = 99;
+var FOOD_LIMIT = 99;
 
 
 function update() {
@@ -71,8 +74,19 @@ function updateParameters() {
 
 function updateResources() {
 	r_wood += j_woodcutter + j_raid;
+	if (r_wood > WOOD_LIMIT){
+		r_wood = WOOD_LIMIT;
+	}
+
 	r_stone += j_stoneMason + j_raid;
+	if (r_stone > STONE_LIMIT){
+		r_stone = STONE_LIMIT;
+	}
+
 	r_food += j_farmer - FOOD_COST;
+	if (r_food > FOOD_LIMIT){
+		r_food = FOOD_LIMIT;
+	}
 }
 
 function updatePopulation() {
