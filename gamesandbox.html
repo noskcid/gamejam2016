@@ -4,15 +4,18 @@
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 		<script src="js/engine.js"></script>
 		<script type="text/javascript">
+
+		var availableWorkers = 3;
+
 			function redraw() {
-				$("#p_death").text(p_death);
-				$("#p_birth").text(p_birth);
-				$("#p_healing").text(p_healing);
-				$("#p_peace").text(p_peace);
-				$("#p_war").text(p_war);
-				$("#p_construction").text(p_construction);
-				$("#p_honor").text(p_honor);
-				$("#p_mischief").text(p_mischief);
+				$("#p_death").text(parseFloat(p_death).toFixed(2));
+				$("#p_birth").text(parseFloat(p_birth).toFixed(2));
+				$("#p_healing").text(parseFloat(p_healing).toFixed(2));
+				$("#p_peace").text(parseFloat(p_peace).toFixed(2));
+				$("#p_war").text(parseFloat(p_war).toFixed(2));
+				$("#p_construction").text(parseFloat(p_construction).toFixed(2));
+				$("#p_honor").text(parseFloat(p_honor).toFixed(2));
+				$("#p_mischief").text(parseFloat(p_mischief).toFixed(2));
 				
 				$("#j_brewery").text(j_brewery);
 				$("#j_apothecary").text(j_apothecary);
@@ -22,17 +25,18 @@
 				$("#j_woodcutter").text(j_woodcutter);
 				$("#j_stoneMason").text(j_stoneMason);
 				$("#j_farmer").text(j_farmer);
-				$("#r_wood").text(r_wood);
-				$("#r_stone").text(r_stone);
-				$("#r_food").text(r_food);
+
+				$("#r_wood").text(parseFloat(r_wood).toFixed(2));
+				$("#r_stone").text(parseFloat(r_stone).toFixed(2));
+				$("#r_food").text(parseFloat(r_food).toFixed(2));
 				$("#population").text(population);
 				$("#population_CAP").text(population_CAP);
 				$("#year").text(year);
-				$("#g_Hades").text(g_Hades);
-				$("#g_Cupid").text(g_Cupid);
-				$("#g_Loki").text(g_Loki);
-				$("#g_Thor").text(g_Thor);
-				$("#g_Athena").text(g_Athena);
+				$("#g_Hades").text(parseFloat(g_Hades).toFixed(2));
+				$("#g_Cupid").text(parseFloat(g_Cupid).toFixed(2));
+				$("#g_Loki").text(parseFloat(g_Loki).toFixed(2));
+				$("#g_Thor").text(parseFloat(g_Thor).toFixed(2));
+				$("#g_Athena").text(parseFloat(g_Athena).toFixed(2));
 			}
 			
 			$(document).ready(function() {
@@ -43,6 +47,145 @@
 					update();
 					redraw();
 				}, 200);
+
+
+			//BUTTON DECLARATIONS
+			$('input.j_brewery').click(function (event) {
+				if (event.target.id == 'plus') {
+					if (availableWorkers > 0) {
+						j_brewery += 0.1;
+						availableWorkers -= 1;
+					}
+				} else {
+					if (j_brewery > 0) {
+						j_brewery -= 0.1;
+						availableWorkers += 1;
+					}
+				}
+				$("#j_brewery").text(j_brewery);	
+			});
+
+
+			$('input.j_apothecary').click(function (event) {
+				if (event.target.id == 'plus') {
+					if (availableWorkers > 0) {
+						j_apothecary += 0.1;
+						availableWorkers -= 1;
+					}
+				} else {
+					if (j_apothecary > 0) {
+						j_apothecary -= 0.1;
+						availableWorkers += 1;
+					}
+				}
+				$("#j_apothecary").text(j_apothecary);	
+			});
+
+			$('input.j_raid').click(function (event) {
+				if (event.target.id == 'plus') {
+					if (availableWorkers > 0) {
+						j_raid += 0.1;
+						availableWorkers -= 1;
+					}
+				} else {
+					if (j_raid > 0) {
+						j_raid -= 0.1;
+						availableWorkers += 1;
+					}
+				}
+				$("#j_raid").text(j_raid);	
+			});
+
+			$('input.j_build').click(function (event) {
+				if (event.target.id == 'plus') {
+					if (availableWorkers > 0) {
+						j_build += 0.1;
+						availableWorkers -= 1;
+					}
+				} else {
+					if (j_build > 0) {
+						j_build -= 0.1;
+						availableWorkers += 1;
+					}
+				}
+				$("#j_build").text(j_build);	
+			});
+
+			$('input.j_worship').click(function (event) {
+				if (event.target.id == 'plus') {
+					if (availableWorkers > 0) {
+						j_worship += 0.1;
+						availableWorkers -= 1;
+					}
+				} else {
+					if (j_worship > 0) {
+						j_worship -= 0.1;
+						availableWorkers += 1;
+					}
+				}
+				$("#j_worship").text(j_worship);	
+			});
+
+			$('input.j_worship').click(function (event) {
+				if (event.target.id == 'plus') {
+					if (availableWorkers > 0) {
+						j_worship += 0.1;
+						availableWorkers -= 1;
+					}
+				} else {
+					if (j_worship > 0) {
+						j_worship -= 0.1;
+						availableWorkers += 1;
+					}
+				}
+				$("#j_worship").text(j_worship);	
+			});
+
+			$('input.j_woodcutter').click(function (event) {
+				if (event.target.id == 'plus') {
+					if (availableWorkers > 0) {
+						j_woodcutter += 0.1;
+						availableWorkers -= 1;
+					}
+				} else {
+					if (j_woodcutter > 0) {
+						j_woodcutter -= 0.1;
+						availableWorkers += 1;
+					}
+				}
+				$("#j_woodcutter").text(j_woodcutter);	
+			});
+
+			$('input.j_stoneMason').click(function (event) {
+				if (event.target.id == 'plus') {
+					if (availableWorkers > 0) {
+						j_stoneMason += 0.1;
+						availableWorkers -= 1;
+					}
+				} else {
+					if (j_stoneMason > 0) {
+						j_stoneMason -= 0.1;
+						availableWorkers += 1;
+					}
+				}
+				$("#j_stoneMason").text(j_stoneMason);	
+			});
+
+			$('input.j_farmer').click(function (event) {
+				if (event.target.id == 'plus') {
+					if (availableWorkers > 0) {
+						j_farmer += 0.1;
+						availableWorkers -= 1;
+					}
+				} else {
+					if (j_farmer > 0) {
+						j_farmer -= 0.1;
+						availableWorkers += 1;
+					}
+				}
+				$("#j_farmer").text(j_farmer);	
+			});
+
 			});
 		</script>
 	</head>
@@ -56,15 +199,41 @@
 		<p>p_construction: <span id="p_construction"></span></p>
 		<p>p_honor: <span id="p_honor"></span></p>
 		<p>p_mischief: <span id="p_mischief"></span></p>
+
 		<h3>Jobs</h3>
-		<p>j_brewery: <span id="j_brewery"></span></p>
-		<p>j_apothecary: <span id="j_apothecary"></span></p>
-		<p>j_raid: <span id="j_raid"></span></p>
-		<p>j_build: <span id="j_build"></span></p>
-		<p>j_worship: <span id="j_worship"></span></p>
-		<p>j_woodcutter: <span id="j_woodcutter"></span></p>
-		<p>j_stoneMason: <span id="j_stoneMason"></span></p>
-		<p>j_farmer: <span id="j_farmer"></span></p>
+		<p>j_brewery: <span id="j_brewery"></span>
+			<input class="j_brewery" id="plus" type="submit" value="+">
+			<input class="j_brewery" id="minus" type="submit" value="-">
+		</p>
+		<p>j_apothecary: <span id="j_apothecary"></span>
+			<input class="j_apothecary" id="plus" type="submit" value="+">
+			<input class="j_apothecary" id="minus" type="submit" value="-">
+		</p>
+		<p>j_raid: <span id="j_raid"></span>
+			<input class="j_raid" id="plus" type="submit" value="+">
+			<input class="j_raid" id="minus" type="submit" value="-">
+		</p>
+		<p>j_build: <span id="j_build"></span>
+			<input class="j_build" id="plus" type="submit" value="+">
+			<input class="j_build" id="minus" type="submit" value="-">
+		</p>
+		<p>j_worship: <span id="j_worship"></span>
+			<input class="j_worship" id="plus" type="submit" value="+">
+			<input class="j_worship" id="minus" type="submit" value="-">
+		</p>
+		<p>j_woodcutter: <span id="j_woodcutter"></span>
+			<input class="j_woodcutter" id="plus" type="submit" value="+">
+			<input class="j_woodcutter" id="minus" type="submit" value="-">
+		</p>
+		<p>j_stoneMason: <span id="j_stoneMason"></span>
+			<input class="j_stoneMason" id="plus" type="submit" value="+">
+			<input class="j_stoneMason" id="minus" type="submit" value="-">
+		</p>
+		<p>j_farmer: <span id="j_farmer"></span>
+			<input class="j_farmer" id="plus" type="submit" value="+">
+			<input class="j_farmer" id="minus" type="submit" value="-">
+		</p>
+
 		<h3>Resources</h3>
 		<p>r_wood: <span id="r_wood"></span></p>
 		<p>r_stone: <span id="r_stone"></span></p>
@@ -73,6 +242,7 @@
 		<p>population: <span id="population"></span></p>
 		<p>population_CAP: <span id="population_CAP"></span></p>
 		<p>year: <span id="year"></span></p>
+
 		<h3>Gods</h3>
 		<p>g_Hades: <span id="g_Hades"></span></p>
 		<p>g_Cupid: <span id="g_Cupid"></span></p>

@@ -16,7 +16,6 @@ var p_mischief = 0;
 var j_brewery = 0;
 var j_apothecary = 0;
 var j_raid = 0;
-var j_build = 0;
 var j_worship = 0;
 
 var j_woodcutter = 0;
@@ -47,6 +46,9 @@ var FOOD_COST = 0.1;
 var GENERAL_SEXUAL_ACTIVITY = 0.1;
 var HOUSE_WOOD_COST = 3;
 var HOUSE_STONE_COST = 3;
+var WOOD_LIMIT = 99;
+var STONE_LIMIT = 99;
+var FOOD_LIMIT = 99;
 
 
 function update() {
@@ -63,7 +65,7 @@ function updateParameters() {
 	p_healing = j_apothecary - j_brewery;
 	p_peace = j_worship - j_raid;
 	p_war = j_raid - j_worship;
-	p_construction = j_build;
+	p_construction = j_woodcutter + j_stoneMason;
 	p_destruction = j_raid;
 	p_honor = j_worship - j_brewery;
 	p_mischief = j_brewery - j_worship;
@@ -71,12 +73,23 @@ function updateParameters() {
 
 function updateResources() {
 	r_wood += j_woodcutter + j_raid;
+	if (r_wood > WOOD_LIMIT){
+		r_wood = WOOD_LIMIT;
+	}
+
 	r_stone += j_stoneMason + j_raid;
+	if (r_stone > STONE_LIMIT){
+		r_stone = STONE_LIMIT;
+	}
+
 	r_food += j_farmer - FOOD_COST;
+	if (r_food > FOOD_LIMIT){
+		r_food = FOOD_LIMIT;
+	}
 }
 
 function updatePopulation() {
-	if ((r_wood >= HOUSE_WOOD_COST) && (r_stone >= HOUSE_STONE_COST) && (j_build >= 0.1)) {
+	if ((r_wood >= HOUSE_WOOD_COST) && (r_stone >= HOUSE_STONE_COST)) {
 		population_CAP += 2;
 		r_wood -= HOUSE_WOOD_COST;
 		r_stone -= HOUSE_STONE_COST;
@@ -102,13 +115,5 @@ function updateGods() {
 
 function setStartingValues() {
 	//Left in for setting later
-	j_brewery = 0;
-	j_apothecary = 0;
-	j_raid = 0;
-	j_build = 0;
-	j_worship = 0;
-
-	j_woodcutter = 0;
-	j_stoneMason = 0;
-	j_farmer = 0.3;
+	j_farmer = 0.2;
 }
