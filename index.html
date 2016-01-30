@@ -4,68 +4,46 @@
         <meta charset="UTF-8" />
         <title>Immortals</title>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+	<script src="js/engine.js"></script>
 	<script type="text/javascript">
-		year = 0;
-		pop = 2;
-		pop_sigma = 5;
 		farming = 0;
 		fishing = 0;
 		available = 10;
-
-		j = 0.5;
-		g = 0.5;
-		h = 0.5;
-		i = 0.5;
-		f = 0.5;
-		e = 0.5;
-		d = 0.5;
-		c = 0.4;
-		b = 0.4;
-		a = 0.4;
-
-		happiness = 0;
-		faith = 0;
-		overcrowding = 0;
-		health = 0;
-		illness = 0;
-		water = 0;
-		nutrition = 0;
-
-		people_per_house = 4;
-		number_of_houses = 1;
-
-		function update() {
-			year += 1;
-			//pop += Math.floor((Math.random() * pop_sigma) + 1);
+		
+		function redraw() {
 			$("#year").text(year);
-			
-			happiness = 100 - j*(100 - faith) 
-			overcrowding = pop - people_per_house * number_of_houses;
-			health = (100 - g*overcrowding - h*illness - i*water);
-			birthrate = pop * (d*health + e*nutrition + f*happiness);
-			deathrate = pop * (a*health + b*nutrition + c*happiness);
-			delta_population = birthrate - deathrate;
-			pop = pop + delta_population;
-
-			$("#happiness").text(happiness);
-			$("#overcrowding").text(overcrowding);
-			$("#health").text(health);
-			$("#birthrate").text(birthrate);
-			$("#deathrate").text(deathrate);
-			$("#deltapopulation").text(delta_population);
-			$("#pop").text(pop);
-
-
-
+			$("#pop").text(population);
 		}
 
 		$(document).ready(function () {
+			var context = document.getElementById('game').getContext("2d");
+	
+			var img = new Image();
+			img.onload = function () {
+    			context.drawImage(img, 300-(178/2), 150-(99/2));
+			}
+			img.src = "images/house.png";
+
+			// Create fill gradient
+			var gradient = context.createLinearGradient(0, 0, 0, 5);
+			gradient.addColorStop(0, "#ffc821");
+			gradient.addColorStop(1, "#faf100");
+
+			context.beginPath();
+      		context.arc(15, 15, 10, 0, 2 * Math.PI, false);
+      		context.fillStyle = gradient;
+      		context.fill();
+      		context.lineWidth = 2;
+      		context.strokeStyle = '#000000';
+      		context.stroke();
+
 			// Grid height correction for Colour
 			//$("#colour").height($("#rain").height());
 
 			// Update every minute
 			interval = setInterval(function(){
 				update();
+				redraw();
 			}, 1000);
 
 			$('input.farming').click(function (event) {
@@ -105,6 +83,9 @@
     </head>
     <body>
 	<p>Year: <span id="year"></span> Population: <span id="pop"></span></p>
+	<canvas id="game" width="600" height="300" style="border:1px solid #000000">
+	
+	</canvas>
 	<h3>Metrics</h3>
 	<p>Happiness: <span id="happiness"></span></p>
 	<p>Overcrowding: <span id="overcrowding"></span></p>
