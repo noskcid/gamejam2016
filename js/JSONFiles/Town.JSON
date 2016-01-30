@@ -1,0 +1,13 @@
+{
+  "Town": {
+    "Name": "York",
+    "Population": 12,
+    "DeltaPopulation": -2,
+    "Playername": "Tony",
+    "Food": 12,
+    "Water": 80,
+    "Money": 200,
+    "Favour": -3,
+    "God": "Hades"
+  }
+}

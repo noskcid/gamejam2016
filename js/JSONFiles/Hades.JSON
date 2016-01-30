@@ -1,0 +1,28 @@
+{
+  "God": {
+    "Name": "Hades",
+    "GodOf": "The Underworld",
+    "Culture": "Greek",
+    "Likes": "Death",
+    "Dislikes": "Long Life",
+    "Death": 3,
+    "Birth": -1,
+    "Healing": -3,
+    "Peace": -2,
+    "War": 2,
+    "Construction": 0,
+    "Destruction": 1,
+    "Honour": 0,
+    "Mischief": 0,    
+    "Speech": [
+      {
+        "Quote0": "FUCK U AND UR LIFE M8",
+        "Quote1": "LOL die in a fire"
+      },
+      {
+        "Question0": "ARE YOU READY TO DIE BITCH?",
+        "Question1": "R U NEARLY DED YET PAL?"
+      }
+    ]
+  }
+}
