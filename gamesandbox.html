@@ -31,15 +31,22 @@
 			$("#population_CAP").text(population_CAP);
 			$("#year").text(year);
 
+			$("#g_Hades").text(g_Hades);
+			$("#g_Cupid").text(g_Cupid);
+			$("#g_Loki").text(g_Loki);
+			$("#g_Thor").text(g_Thor);
+			$("#g_Athena").text(g_Athena);
+
 		}
 
 		$(document).ready(function() {
+			setStartingValues();
 			redraw();
 			// Update every minute
 			interval = setInterval(function(){
 				update();
 				redraw();
-			}, 1000);
+			}, 200);
 		});
 	</script>
 </head>
@@ -73,6 +80,13 @@
 	<p>population: <span id="population"></span></p>
 	<p>population_CAP: <span id="population_CAP"></span></p>
 	<p>year: <span id="year"></span></p>
+
+	<h3>Gods</h3>
+	<p>g_Hades: <span id="g_Hades"></span></p>
+	<p>g_Cupid: <span id="g_Cupid"></span></p>
+	<p>g_Loki: <span id="g_Loki"></span></p>
+	<p>g_Thor: <span id="g_Thor"></span></p>
+	<p>g_Athena: <span id="g_Athena"></span></p>
 
 
 

@@ -19,25 +19,31 @@ var j_raid = 0;
 var j_build = 0;
 var j_worship = 0;
 
-var j_woodcutter  = 0;
+var j_woodcutter = 0;
 var j_stoneMason = 0;
 var j_farmer = 0;
 
 
 // Resources
-var r_wood =0;
-var r_stone =0;
-var r_food =0;
+var r_wood = 0;
+var r_stone = 0;
+var r_food = 0;
 
+//Gods
+var g_Hades = 0;
+var g_Cupid = 0;
+var g_Loki = 0;
+var g_Thor = 0;
+var g_Athena = 0;
 
 // Population / Year
-var population=2;
+var population = 2;
 var population_CAP = 10;
 var year = 0;
 
 
 // Constants
-var FOOD_COST = 0.2; 
+var FOOD_COST = 0.3;
 var GENERAL_SEXUAL_ACTIVITY = 0.1;
 var HOUSE_WOOD_COST = 3;
 var HOUSE_STONE_COST = 3;
@@ -51,7 +57,7 @@ function update() {
 	year += 1;
 }
 
-function updateParameters(){
+function updateParameters() {
 	p_death = j_raid;
 	p_birth = j_brewery;
 	p_healing = j_apothecary - j_brewery;
@@ -63,24 +69,42 @@ function updateParameters(){
 	p_mischief = j_brewery - j_worship;
 }
 
-function updateResources(){
+function updateResources() {
 	r_wood += j_woodcutter + j_raid;
 	r_stone += j_stoneMason + j_raid;
 	r_food += j_farmer - FOOD_COST;
 }
 
-function updatePopulation(){
-	if ((r_wood >= HOUSE_WOOD_COST) && (r_wood >= HOUSE_STONE_COST)){
+function updatePopulation() {
+	if ((r_wood >= HOUSE_WOOD_COST) && (r_stone >= HOUSE_STONE_COST) && (j_build >= 0.1)) {
 		population_CAP += 2;
 		r_wood -= HOUSE_WOOD_COST;
 		r_stone -= HOUSE_STONE_COST;
 	}
-	
-	if (population <= population_CAP){
+
+	if (population <= population_CAP) {
 		population += p_birth - p_death + p_healing + GENERAL_SEXUAL_ACTIVITY;
 	}
 }
 
-function updateGods(){
+function updateGods() {
 	// USING PARAMETERS.	
+	g_Hades += (3 * p_death) + (2 * p_war) + (1 * p_destruction) + (-1 * p_peace) + (-3 * p_healing);
+	g_Cupid += (3 * p_birth) + (2 * p_healing) + (1 * p_peace) + (-1 * p_destruction) + (-2 * p_war) + (-3 * p_death);
+	g_Loki += (3 * p_mischief) + (2 * p_destruction) + (1 * p_death) + (-1 * p_peace) + (-2 * p_birth) + (-3 * p_honor);
+	g_Thor += (3 * p_war) + (2 * p_honor) + (1 * p_destruction) + (-1 * p_construction) + (-2 * p_peace) + (-3 * p_mischief);
+	g_Athena += (3 * p_peace) + (2 * p_construction) + (1 * p_honor) + (-1 * p_death) + (-2 * p_war) + (-3 * p_destruction);
+}
+
+function setStartingValues() {
+	//Left in for setting later
+	j_brewery = 0;
+	j_apothecary = 0;
+	j_raid = 0;
+	j_build = 0;
+	j_worship = 0;
+
+	j_woodcutter = 0;
+	j_stoneMason = 0;
+	j_farmer = 0.3;
 }
