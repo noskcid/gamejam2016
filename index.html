@@ -20,6 +20,8 @@
 		fishing = 0;
 		available = 10;
 		var context;
+		var canvasW;
+		var canvasH;
 		var centerX;
 		var centerY;
 		var cupid_img;
@@ -27,9 +29,16 @@
 
 		function loadImages() {
 			cupid_img = new Image();
-			cupid_img.src = "images/gods/resized/cupid_cropped_backup.jpg";
-			cupid_img2 = new Image();
-			cupid_img2.src = "images/gods/resized/cupid_cropped.jpg";
+			cupid_img.src = "images/gods/resized/cupid_cropped.jpg";
+			loki_img = new Image();
+			loki_img.src = "images/gods/resized/loki_cropped.jpg";
+			hades_img = new Image();
+			hades_img.src = "images/gods/resized/hades_cropped.jpg";
+			thor_img = new Image();
+			thor_img.src = "images/gods/resized/thor_cropped.jpg";
+			athena_img = new Image();
+			athena_img.src = "images/gods/resized/athena_cropped.jpg";
+
 			house_img = new Image();
 			house_img.src = "images/house.png";
 		}
@@ -39,11 +48,28 @@
 			$("#pop").text(population);
 		}
 
+		function drawGod(ct, img, x, y, r) {
+			var pattern = ct.createPattern(img, 'repeat');
+			ct.beginPath();
+      		ct.arc(x, y, r, 0, 2 * Math.PI, false);
+      		ct.fillStyle = pattern;
+      		ct.fill();
+      		ct.lineWidth = 5;
+      		ct.strokeStyle = '#6f97af';
+      		ct.stroke();
+		}
+
 		function draw() {
 			context.drawImage(house_img, centerX-(178/2), centerY-(99/2));
 			
-			var pattern = context.createPattern(cupid_img, 'repeat');
+			//var pattern = context.createPattern(cupid_img, 'no-repeat');
+			drawGod(context,cupid_img,50,50,50);
+			drawGod(context,loki_img,150,50,50);
+			drawGod(context,hades_img,250,50,50);
+			drawGod(context,thor_img,350,50,50);
+			drawGod(context,athena_img,450,50,50);
 
+			/*
 			context.beginPath();
       		context.arc(100, 100, 100, 0, 2 * Math.PI, false);
       		context.fillStyle = pattern;
@@ -53,6 +79,7 @@
       		context.stroke();
 
 			context.drawImage(cupid_img2, 200,100);
+			*/
 
 			/*
 			context.save();
@@ -76,8 +103,10 @@
 
 		$(document).ready(function () {
 			context = document.getElementById('game').getContext("2d");
-			centerX = 1300 / 2;
-      		centerY = 700 / 2;
+			canvasW = 1300;
+			canvasH = 700;
+			centerX = canvasW / 2;
+      		centerY = canvasH / 2;
 			
 			/*
 			var img = new Image();
