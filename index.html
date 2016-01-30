@@ -53,7 +53,7 @@
     		width: 50%; 
 		}
 
-		ol.name-value li .selector {
+		ol.name-value li span {
     		display: table-cell;
     		width: 50%; 
 		}
@@ -64,6 +64,7 @@
 		farming = 0;
 		fishing = 0;
 		available = 10;
+		var available = 3;
 		
 		var yellowGradient;
 
@@ -95,8 +96,25 @@
 		}
 		
 		function redraw() {
-			$("#year").text(year);
+			$("#p_death").text(p_death);
+			$("#p_birth").text(p_birth);
+			$("#p_healing").text(p_healing);
+			$("#p_peace").text(p_peace);
+			$("#p_war").text(p_war);
+			$("#p_construction").text(p_construction);
+			$("#p_destruction").text(p_destruction);
+			$("#p_honor").text(p_honor);
+			$("#p_mischief").text(p_mischief);
+
+			$("#r_wood").text(r_wood);
+			$("#r_stone").text(r_stone);
+			$("#r_food").text(r_food);
+
 			$("#pop").text(population);
+			$("#year").text(year);
+
+
+
 		}
 
 		function drawGod(ct, img, x, y, r) {
@@ -269,38 +287,90 @@
 			}, 1000);
 
 			$('input.plus').click(function (event) {
-				console.log('banter');
 				if (available > 0) {
-					if (event.target.id == 'fishing') {
-						fishing += 1;
-						$("#fishing_value").text(fishing);	
+					if (event.target.id == 'brewery') {
+						j_brewery += 0.1;
+						$("#j_brewery").text(j_brewery);	
 					}
-					else if (event.target.id == 'farming') {
-						farming += 1;
-						$("#farming_value").text(farming);
+					else if (event.target.id == 'apothecary') {
+						j_apothecary += 0.1;
+						$("#j_apothecary").text(j_apothecary);
+					}
+					else if (event.target.id == 'raid') {
+						j_raid += 0.1;
+						$("#j_raid").text(j_raid);
+					}
+					else if (event.target.id == 'worship') {
+						j_worship += 0.1;
+						$("#j_worship").text(j_worship);
+					}
+					else if (event.target.id == 'woodcutter') {
+						j_woodcutter += 0.1;
+						$("#j_woodcutter").text(j_woodcutter);
+					}
+					else if (event.target.id == 'stoneMason') {
+						j_stoneMason += 0.1;
+						$("#j_stoneMason").text(j_stoneMason);
+					}
+					else if (event.target.id == 'farmer') {
+						j_farmer += 0.1;
+						$("#j_farmer").text(j_farmer);
 					}
 					available -= 1;
 				}
-				console.log(available);
 			});
 
 			$('input.minus').click(function (event) {
-				console.log('anti-banter');
-				if (event.target.id == 'fishing') {
-					if (fishing > 0) {
-						fishing -= 1;
-						$("#fishing_value").text(fishing);
+				if (event.target.id == 'brewery') {
+					if (j_brewery > 0) {
+						j_brewery -= 0.1;
+						$("#j_brewery").text(j_brewery);
 						available += 1;
 					}	
 				}
-				else if (event.target.id == 'farming') {
-					if (farming > 0) {
-						farming -= 1;
-						$("#farming_value").text(farming);
+				else if (event.target.id == 'apothecary') {
+					if (j_apothecary > 0) {
+						j_apothecary -= 0.1;
+						$("#j_apothecary").text(j_apothecary);
 						available += 1;
 					}
 				}
-				console.log(available);
+				else if (event.target.id == 'raid') {
+					if (j_raid > 0) {
+						j_raid -= 0.1;
+						$("#j_raid").text(j_raid);
+						available += 1;
+					}
+				}
+				else if (event.target.id == 'worship') {
+					if (j_worship > 0) {
+						j_worship -= 0.1;
+						$("#j_worship").text(j_worship);
+						available += 1;
+					}
+				}
+				else if (event.target.id == 'woodcutter') {
+					if (j_woodcutter > 0) {
+						j_woodcutter -= 0.1;
+						$("#j_woodcutter").text(j_woodcutter);
+						available += 1;
+					}
+				}
+				else if (event.target.id == 'stoneMason') {
+					if (j_stoneMason > 0) {
+						j_stoneMason -= 0.1;
+						$("#j_stoneMason").text(j_stoneMason);
+						available += 1;
+					}
+				}
+				else if (event.target.id == 'farmer') {
+					if (j_farmer > 0) {
+						j_farmer -= 0.1;
+						$("#j_farmer").text(j_farmer);
+						available += 1;
+					}
+				}
+
 			});
 		
 		});
@@ -319,45 +389,109 @@
 	<canvas id="game" width="1300px" height="700px"></canvas>
 	<div id="bottom">
 	<div id="metrics">
-	<h3>Metrics</h3>
+	<h3>Parameters</h3>
 	<ol class="name-value" style="width: 100%;">
 		<li>
-			<label for="banter">Banter</label>
-			<div class="selector" id="banter">
-				<span id="banter">99</span>
-			</div>
+			<label for="p_death">Death</label>
+			<span id="p_death">0</span>
 		</li>
 		<li>
-			<label for="happiness">Happiness</label>
-			<div class="selector" id="happiness">
-				<span id="happiness">10</span>
-			</div>
+			<label for="p_birth">Birth</label>
+			<span id="p_birth">0</span>
 		</li>
+		<li>
+			<label for="p_healing">Healing</label>
+			<span id="p_healing">0</span>
+		</li>
+		<li>
+			<label for="p_peace">Peace</label>
+			<span id="p_peace">0</span>
+		</li>
+		<li>
+			<label for="p_war">War</label>
+			<span id="p_war">0</span>
+		</li>
+		<li>
+			<label for="p_construction">Construction</label>
+			<span id="p_construction">0</span>
+		</li>
+		<li>
+			<label for="p_destruction">Destruction</label>
+			<span id="p_destruction">0</span>
+		</li>
+		<li>
+			<label for="p_honor">Honour</label>
+			<span id="p_honor">0</span>
+		</li>
+		<li>
+			<label for="p_mischief">Mischief</label>
+			<span id="p_mischief">0</span>
+		</li>
+	</ol>
+	<h3>Resources</h3>
+	<ol class="name-value" style="width: 100%;">
+		<li>
+			<label for="r_wood">Wood</label>
+			<span id="r_wood">0</span>
+		</li>
+		<li>
+			<label for="r_stone">Stone</label>
+			<span id="r_stone">0</span>
+		</li>
+		<li>
+			<label for="r_food">Food</label>
+			<span id="r_food">0</span>
+		</li>
+
+
 	</ol>
 	</div>
 
 	<div id="control">
-	<h3>Control</h3>
+	<h3>Jobs</h3>
 	<p>
-		Fishing: 
-		<input class="plus" id="fishing" type="submit" value="+">
-		<span id="fishing_value">0</span>
-		<input class="minus" id="fishing" type="submit" value="-">
+		Brewery: 
+		<input class="plus" id="brewery" type="submit" value="+">
+		<span id="j_brewery">0</span>
+		<input class="minus" id="brewery" type="submit" value="-">
 	</p>
 	<p>
-		Farming: 
-		<input class="plus" id="farming" type="submit" value="+">
-		<span id="farming_value">0</span>
-		<input class="minus" id="farming" type="submit" value="-">
+		Apothecary: 
+		<input class="plus" id="apothecary" type="submit" value="+">
+		<span id="j_apothecary">0</span>
+		<input class="minus" id="apothecary" type="submit" value="-">
+	</p>
+	<p>
+		Raid: 
+		<input class="plus" id="raid" type="submit" value="+">
+		<span id="j_raid">0</span>
+		<input class="minus" id="raid" type="submit" value="-">
+	</p>
+	<p>
+		Worship: 
+		<input class="plus" id="worship" type="submit" value="+">
+		<span id="j_worship">0</span>
+		<input class="minus" id="worship" type="submit" value="-">
+	</p>
+	<p>
+		Woodcutter: 
+		<input class="plus" id="woodcutter" type="submit" value="+">
+		<span id="j_woodcutter">0</span>
+		<input class="minus" id="woodcutter" type="submit" value="-">
+	</p>
+	<p>
+		Stone Mason: 
+		<input class="plus" id="stoneMason" type="submit" value="+">
+		<span id="j_stoneMason">0</span>
+		<input class="minus" id="stoneMason" type="submit" value="-">
+	</p>
+	<p>
+		Farmer: 
+		<input class="plus" id="farmer" type="submit" value="+">
+		<span id="j_farmer">0</span>
+		<input class="minus" id="farmer" type="submit" value="-">
 	</p>
 
-	<p>Livestock: </p>
-	<p>Irrigation: </p>
-	<p>Transport: </p>
-	<p>Wood: </p>
-	<p>Stone: </p>
-	<p>Worship: </p>
-	<p>Leisure: </p>
 	</div>
 	</div>
 	</div>
