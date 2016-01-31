@@ -51,6 +51,9 @@ var STONE_LIMIT = 99;
 var FOOD_LIMIT = 99;
 var POP_PER_HOUSE = 6;
 
+// Game end stuff
+var game_over = 0;
+
 
 function update() {
 	updateParameters();
@@ -110,17 +113,32 @@ function updatePopulation() {
 		
 		if (population < 0) {
 			population = 0;
+			game_over = 1;
 		}
 	}
 }
 
 function updateGods() {
 	// USING PARAMETERS.	
-	g_Hades += (3 * p_death) + (2 * p_war) + (1 * p_destruction) + (-1 * p_peace) + (-3 * p_healing);
-	g_Cupid += (3 * p_birth) + (2 * p_healing) + (1 * p_peace) + (-1 * p_destruction) + (-2 * p_war) + (-3 * p_death);
-	g_Loki += (3 * p_mischief) + (2 * p_destruction) + (1 * p_death) + (-1 * p_peace) + (-2 * p_birth) + (-3 * p_honor);
-	g_Thor += (3 * p_war) + (2 * p_honor) + (1 * p_destruction) + (-1 * p_construction) + (-2 * p_peace) + (-3 * p_mischief);
-	g_Athena += (3 * p_peace) + (2 * p_construction) + (1 * p_honor) + (-1 * p_death) + (-2 * p_war) + (-3 * p_destruction);
+	g_Hades = limitGod(g_Hades + (3 * p_death) + (2 * p_war) + (1 * p_destruction) + (-1 * p_peace) + (-3 * p_healing));
+	g_Cupid = limitGod(g_Cupid + (3 * p_birth) + (2 * p_healing) + (1 * p_peace) + (-1 * p_destruction) + (-2 * p_war) + (-3 * p_death));
+	g_Loki = limitGod(g_Loki + (3 * p_mischief) + (2 * p_destruction) + (1 * p_death) + (-1 * p_peace) + (-2 * p_birth) + (-3 * p_honor));
+	g_Thor = limitGod(g_Thor + (3 * p_war) + (2 * p_honor) + (1 * p_destruction) + (-1 * p_construction) + (-2 * p_peace) + (-3 * p_mischief));
+	g_Athena = limitGod(g_Athena + (3 * p_peace) + (2 * p_construction) + (1 * p_honor) + (-1 * p_death) + (-2 * p_war) + (-3 * p_destruction));
+
+}
+
+function limitGod(god) {
+	if (god < -99) {
+		game_over = 1;
+		return -99;
+	}
+	else if (god > 99) {
+		return 99;
+	} 
+	else {
+		return god;
+	}
 }
 
 function setStartingValues() {
