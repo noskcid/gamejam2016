@@ -61,6 +61,17 @@
     		display: table-cell;
     		width: 50%; 
 		}
+
+		#overlay1 {
+			margin: auto;
+			position: absolute;
+			top: 50px; left: 50px;
+			bottom: 50px; right: 50px;
+			background-color: #000;
+			color: #FFF;
+			visibility: hidden;
+			z-index:5;
+		}
 	</style>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 	<script src="js/engine.js"></script>
@@ -272,7 +283,13 @@
 
 		}
 
-		function drawGod(ct, img, x, y, r, meter, last) {
+		function godSpeaking(god_index) {
+			if (!god_pos_audio[god_index].paused || !god_neg_audio[god_index].paused) {
+				return 1;
+			}
+		}
+
+		function drawGod(ct, img, x, y, r, meter, last, god_index) {
 			var meter_rnd = Math.floor(meter/10);
 			var last_rnd = Math.floor(last/10);
 			var pattern = ct.createPattern(img, 'repeat');
@@ -285,6 +302,10 @@
       			ct.strokeStyle = '#6f97af';
 			} else {
 				ct.strokeStyle = '#000000';
+			}
+			
+			if (godSpeaking(god_index)) {
+				ct.strokeStyle = '#FFFFFF';
 			}
       		ct.stroke();
       		
@@ -457,11 +478,11 @@
 		
 		function drawGodBar() {
 			context.clearRect(0, 0, canvasW, 110);
-			drawGod(context,cupid_img,55,55,50,g_Cupid,last_cupid);
-			drawGod(context,loki_img,155,55,50,g_Loki,last_loki);
-			drawGod(context,hades_img,255,55,50,g_Hades,last_hades);
-			drawGod(context,thor_img,355,55,50,g_Thor,last_thor);
-			drawGod(context,athena_img,455,55,50,g_Athena,last_athena);
+			drawGod(context,cupid_img,55,55,50,g_Cupid,last_cupid,1);
+			drawGod(context,loki_img,155,55,50,g_Loki,last_loki,2);
+			drawGod(context,hades_img,255,55,50,g_Hades,last_hades,0);
+			drawGod(context,thor_img,355,55,50,g_Thor,last_thor,3);
+			drawGod(context,athena_img,455,55,50,g_Athena,last_athena,4);
 		}
 		
 		loadImages();
@@ -539,6 +560,7 @@
 			
 			tileInterval = setInterval(function(){
 				drawTiles();
+				drawGodBar();
 			}, 200);
 
 			audioInterval = setInterval(function(){
@@ -670,6 +692,7 @@
 	</script>
     </head>
     <body>
+	<div id="overlay1">your content</div>
 	<div id="game_area">
 	<p>Year: <span id="year"></span> Population: <span id="pop"></span> Number of houses: <span id="houses"></span> (<span id="num_per_house"></span> people per house)</p>
 	<canvas id="game" width="1300px" height="700px"></canvas>
