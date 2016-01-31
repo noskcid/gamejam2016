@@ -107,6 +107,9 @@
 		var background_audio;
 		var mine_audio;
 		var hungry_audio;
+		var lumber_audio;
+		
+		var pos_audio;
 
 		function loadImages() {
 			cupid_img = new Image();
@@ -222,6 +225,15 @@
 			background_audio.play();
 
 			mine_audio = new Audio('Audio/Toby - Oggs/DownTheMinesIGo.ogg');
+			lumber_audio = new Audio('Audio/Toby - Oggs/YeahICouldBeALumberjack.ogg');
+			
+			pos_audio = new Array();
+			pos_audio[0] = new Audio('Audio/Toby - Oggs/Alright.ogg');
+			pos_audio[1] = new Audio('Audio/Toby - Oggs/AlrightBoss.ogg');
+			pos_audio[2] = new Audio('Audio/Toby - Oggs/AlrightGuvnor.ogg');
+			pos_audio[3] = new Audio('Audio/Toby - Oggs/ConsiderItDone.ogg');
+			pos_audio[4] = new Audio('Audio/Toby - Oggs/HaveItYourWay.ogg');
+			pos_audio[5] = new Audio('Audio/Toby - Oggs/OnItMate.ogg');
 
 			god_pos_audio = new Array();
 			god_pos_audio[0] = new Audio('Audio/gods/hades_g.ogg');
@@ -248,15 +260,15 @@
 		}
 		
 		function redraw() {
-			$("#p_death").text(p_death);
-			$("#p_birth").text(p_birth);
-			$("#p_healing").text(p_healing);
-			$("#p_peace").text(p_peace);
-			$("#p_war").text(p_war);
-			$("#p_construction").text(p_construction);
-			$("#p_destruction").text(p_destruction);
-			$("#p_honor").text(p_honor);
-			$("#p_mischief").text(p_mischief);
+			$("#p_death").text(parseFloat(10*p_death).toFixed(0));
+			$("#p_birth").text(parseFloat(10*p_birth).toFixed(0));
+			$("#p_healing").text(parseFloat(10*p_healing).toFixed(0));
+			$("#p_peace").text(parseFloat(10*p_peace).toFixed(0));
+			$("#p_war").text(parseFloat(10*p_war).toFixed(0));
+			$("#p_construction").text(parseFloat(10*p_construction).toFixed(0));
+			$("#p_destruction").text(parseFloat(10*p_destruction).toFixed(0));
+			$("#p_honor").text(parseFloat(10*p_honor).toFixed(0));
+			$("#p_mischief").text(parseFloat(10*p_mischief).toFixed(0));
 
 			$("#r_wood").text(parseFloat(r_wood).toFixed(0));	
 			$("#r_stone").text(parseFloat(r_stone).toFixed(0));
@@ -553,23 +565,29 @@
 
 			$('input.plus').click(function (event) {
 				if (available > 0) {
+					var x = randomIntFromInterval(0, 5);
 					if (event.target.id == 'brewery') {
+						playClip(pos_audio[x]);
 						j_brewery += 0.1;
 						$("#j_brewery").text(parseFloat(j_brewery*10).toFixed(0));	
 					}
 					else if (event.target.id == 'apothecary') {
+						playClip(pos_audio[x]);
 						j_apothecary += 0.1;
 						$("#j_apothecary").text(parseFloat(j_apothecary*10).toFixed(0));
 					}
 					else if (event.target.id == 'raid') {
+						playClip(pos_audio[x]);
 						j_raid += 0.1;
 						$("#j_raid").text(parseFloat(j_raid*10).toFixed(0));
 					}
 					else if (event.target.id == 'worship') {
+						playClip(pos_audio[x]);
 						j_worship += 0.1;
 						$("#j_worship").text(parseFloat(j_worship*10).toFixed(0));
 					}
 					else if (event.target.id == 'woodcutter') {
+						playClip(lumber_audio);
 						j_woodcutter += 0.1;
 						$("#j_woodcutter").text(parseFloat(j_woodcutter*10).toFixed(0));
 					}
@@ -579,6 +597,7 @@
 						$("#j_stoneMason").text(parseFloat(j_stoneMason*10).toFixed(0));
 					}
 					else if (event.target.id == 'farmer') {
+						playClip(pos_audio[x]);
 						j_farmer += 0.1;
 						$("#j_farmer").text(parseFloat(j_farmer*10).toFixed(0));
 					}
@@ -640,6 +659,11 @@
 			});
 		
 		});
+		
+		function randomIntFromInterval(min,max)
+		{
+			return Math.floor(Math.random()*(max-min+1)+min);
+		}
 
 		function resize() {
 			console.log("RESIZE");
@@ -754,7 +778,7 @@
 		<input class="minus" id="raid" type="submit" value="-">
 	</p>
 	<p>
-		Worship: 
+		Perform Rituals: 
 		<input class="plus" id="worship" type="submit" value="+">
 		<span id="j_worship">0</span>
 		<input class="minus" id="worship" type="submit" value="-">

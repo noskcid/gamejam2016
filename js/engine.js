@@ -46,9 +46,9 @@ var FOOD_COST = 0.15;
 var GENERAL_SEXUAL_ACTIVITY = 0.1;
 var HOUSE_WOOD_COST = 15;
 var HOUSE_STONE_COST = 10;
-var WOOD_LIMIT = 99;
-var STONE_LIMIT = 99;
-var FOOD_LIMIT = 99;
+var WOOD_LIMIT = 999;
+var STONE_LIMIT = 999;
+var FOOD_LIMIT = 999;
 var POP_PER_HOUSE = 6;
 
 // Game end stuff
