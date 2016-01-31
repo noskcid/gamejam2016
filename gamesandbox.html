@@ -37,6 +37,8 @@
 				$("#g_Loki").text(parseFloat(g_Loki).toFixed(2));
 				$("#g_Thor").text(parseFloat(g_Thor).toFixed(2));
 				$("#g_Athena").text(parseFloat(g_Athena).toFixed(2));
+				
+				$("#gameover").text(game_over);
 			}
 			
 			$(document).ready(function() {
@@ -249,6 +251,9 @@
 		<p>g_Loki: <span id="g_Loki"></span></p>
 		<p>g_Thor: <span id="g_Thor"></span></p>
 		<p>g_Athena: <span id="g_Athena"></span></p>
+		
+		<h3>Other</h3>
+		<p>GameOver: <span id="gameover"></span></p>
 		
 	</body>
 </html>

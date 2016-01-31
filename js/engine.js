@@ -51,6 +51,9 @@ var STONE_LIMIT = 99;
 var FOOD_LIMIT = 99;
 var POP_PER_HOUSE = 6;
 
+// Game end stuff
+var game_over = 0;
+
 
 function update() {
 	updateParameters();
@@ -110,6 +113,7 @@ function updatePopulation() {
 		
 		if (population < 0) {
 			population = 0;
+			game_over = 1;
 		}
 	}
 }
@@ -126,6 +130,7 @@ function updateGods() {
 
 function limitGod(god) {
 	if (god < -99) {
+		game_over = 1;
 		return -99;
 	}
 	else if (god > 99) {
