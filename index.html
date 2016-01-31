@@ -110,6 +110,8 @@
 		var lumber_audio;
 		
 		var pos_audio;
+		
+		var mute_audio = 0;
 
 		function loadImages() {
 			cupid_img = new Image();
@@ -564,7 +566,18 @@
 
 
 			$('input.plus').click(function (event) {
-				if (available > 0) {
+				if (event.target.id == 'mute') {
+					console.log(mute_audio);
+					if (mute_audio == 0) {
+						background_audio.pause();
+						mute_audio = 1;
+					}
+					else {
+						background_audio.play();
+						mute_audio = 0;
+					}
+				}
+				else if (available > 0) {
 					var x = randomIntFromInterval(0, 5);
 					if (event.target.id == 'brewery') {
 						playClip(pos_audio[x]);
@@ -603,6 +616,9 @@
 					}
 					available -= 1;
 				}
+				
+				
+				
 			});
 
 			$('input.minus').click(function (event) {
@@ -800,6 +816,10 @@
 		<input class="plus" id="farmer" type="submit" value="+">
 		<span id="j_farmer">0</span>
 		<input class="minus" id="farmer" type="submit" value="-">
+	</p>
+	<p>
+		Mute song: 
+		<input class="plus" id="mute" type="submit" value="+">
 	</p>
 
 	</div>
