@@ -199,16 +199,16 @@
 		}
 
 		function loadAudio() {
-			background_audio = new Audio('Audio/folkloop.mp3');
-			/*
+			background_audio = new Audio('Audio/folkloop3.ogg');
+			
 			background_audio.addEventListener('ended', function() {
     			this.currentTime = 0;
     			this.play();
 			}, false);
-			*/
-			background_audio.loop = true;
+			
+			//background_audio.loop = true;
 			background_audio.volume = 0.5
-			//background_audio.play();
+			background_audio.play();
 
 			mine_audio = new Audio('Audio/Toby - Oggs/DownTheMinesIGo.ogg');
 		}
@@ -229,12 +229,15 @@
 			$("#p_honor").text(p_honor);
 			$("#p_mischief").text(p_mischief);
 
-			$("#r_wood").text(r_wood);
-			$("#r_stone").text(r_stone);
-			$("#r_food").text(r_food);
+			$("#r_wood").text(parseFloat(r_wood).toFixed(0));	
+			$("#r_stone").text(parseFloat(r_stone).toFixed(0));
+			$("#r_food").text(parseFloat(r_food).toFixed(0));
 
-			$("#pop").text(population);
+			$("#pop").text(parseFloat(population).toFixed(0));
 			$("#year").text(year);
+			$("#houses").text(houses);
+			$("#num_per_house").text(POP_PER_HOUSE);
+
 
 
 
@@ -353,10 +356,10 @@
 			if (r_wood < 1) {
 				context.drawImage(tile_img, centerX, centerY);
 			}
-			else if (r_wood < 2) {
+			else if (r_wood < 5) {
 				context.drawImage(wood_img[0], centerX, centerY);
 			}
-			else if (r_wood < 3) {
+			else if (r_wood < 10) {
 				context.drawImage(wood_img[1], centerX, centerY);
 			}
 			else {
@@ -366,10 +369,10 @@
 			if (r_stone < 1) {
 				context.drawImage(tile_img, centerX-tile_w/2, centerY+tile_h/2);
 			}
-			else if (r_stone < 2) {
+			else if (r_stone < 3) {
 				context.drawImage(stone_img[0], centerX-tile_w/2, centerY+tile_h/2);
 			}
-			else if (r_stone < 3) {
+			else if (r_stone < 6) {
 				context.drawImage(stone_img[1], centerX-tile_w/2, centerY+tile_h/2);
 			}
 			else {
@@ -429,7 +432,9 @@
 			canvasH = 700;
 			centerX = canvasW / 2;
       		centerY = canvasH / 2;
-			
+      		
+      		setStartingValues();
+			$("#j_farmer").text(parseFloat(j_farmer*10).toFixed(0));
 			/*
 			var img = new Image();
 			img.onload = function () {
@@ -491,32 +496,32 @@
 				if (available > 0) {
 					if (event.target.id == 'brewery') {
 						j_brewery += 0.1;
-						$("#j_brewery").text(j_brewery);	
+						$("#j_brewery").text(parseFloat(j_brewery*10).toFixed(0));	
 					}
 					else if (event.target.id == 'apothecary') {
 						j_apothecary += 0.1;
-						$("#j_apothecary").text(j_apothecary);
+						$("#j_apothecary").text(parseFloat(j_apothecary*10).toFixed(0));
 					}
 					else if (event.target.id == 'raid') {
 						j_raid += 0.1;
-						$("#j_raid").text(j_raid);
+						$("#j_raid").text(parseFloat(j_raid*10).toFixed(0));
 					}
 					else if (event.target.id == 'worship') {
 						j_worship += 0.1;
-						$("#j_worship").text(j_worship);
+						$("#j_worship").text(parseFloat(j_worship*10).toFixed(0));
 					}
 					else if (event.target.id == 'woodcutter') {
 						j_woodcutter += 0.1;
-						$("#j_woodcutter").text(j_woodcutter);
+						$("#j_woodcutter").text(parseFloat(j_woodcutter*10).toFixed(0));
 					}
 					else if (event.target.id == 'stoneMason') {
 						playClip(mine_audio);
 						j_stoneMason += 0.1;
-						$("#j_stoneMason").text(j_stoneMason);
+						$("#j_stoneMason").text(parseFloat(j_stoneMason*10).toFixed(0));
 					}
 					else if (event.target.id == 'farmer') {
 						j_farmer += 0.1;
-						$("#j_farmer").text(j_farmer);
+						$("#j_farmer").text(parseFloat(j_farmer*10).toFixed(0));
 					}
 					available -= 1;
 				}
@@ -524,51 +529,51 @@
 
 			$('input.minus').click(function (event) {
 				if (event.target.id == 'brewery') {
-					if (j_brewery > 0) {
+					if (j_brewery >= 0.1) {
 						j_brewery -= 0.1;
-						$("#j_brewery").text(j_brewery);
+						$("#j_brewery").text(parseFloat(j_brewery*10).toFixed(0));	
 						available += 1;
 					}	
 				}
 				else if (event.target.id == 'apothecary') {
-					if (j_apothecary > 0) {
+					if (j_apothecary >= 0.1) {
 						j_apothecary -= 0.1;
-						$("#j_apothecary").text(j_apothecary);
+						$("#j_apothecary").text(parseFloat(j_apothecary*10).toFixed(0));
 						available += 1;
 					}
 				}
 				else if (event.target.id == 'raid') {
-					if (j_raid > 0) {
+					if (j_raid >= 0.1) {
 						j_raid -= 0.1;
-						$("#j_raid").text(j_raid);
+						$("#j_raid").text(parseFloat(j_raid*10).toFixed(0));
 						available += 1;
 					}
 				}
 				else if (event.target.id == 'worship') {
-					if (j_worship > 0) {
+					if (j_worship >= 0.1) {
 						j_worship -= 0.1;
-						$("#j_worship").text(j_worship);
+						$("#j_worship").text(parseFloat(j_worship*10).toFixed(0));
 						available += 1;
 					}
 				}
 				else if (event.target.id == 'woodcutter') {
-					if (j_woodcutter > 0) {
+					if (j_woodcutter >= 0.1) {
 						j_woodcutter -= 0.1;
-						$("#j_woodcutter").text(j_woodcutter);
+						$("#j_woodcutter").text(parseFloat(j_woodcutter*10).toFixed(0));
 						available += 1;
 					}
 				}
 				else if (event.target.id == 'stoneMason') {
-					if (j_stoneMason > 0) {
+					if (j_stoneMason >= 0.1) {
 						j_stoneMason -= 0.1;
-						$("#j_stoneMason").text(j_stoneMason);
+						$("#j_stoneMason").text(parseFloat(j_stoneMason*10).toFixed(0));
 						available += 1;
 					}
 				}
 				else if (event.target.id == 'farmer') {
-					if (j_farmer > 0) {
+					if (j_farmer >= 0.1) {
 						j_farmer -= 0.1;
-						$("#j_farmer").text(j_farmer);
+						$("#j_farmer").text(parseFloat(j_farmer*10).toFixed(0));
 						available += 1;
 					}
 				}
@@ -607,8 +612,8 @@
     </head>
     <body>
 	<div id="game_area">
-	Year: <span id="year"></span> Population: <span id="pop"></span>
-	<canvas id="game" width="1000px" height="700px"></canvas>
+	<p>Year: <span id="year"></span> Population: <span id="pop"></span> Number of houses: <span id="houses"></span> (<span id="num_per_house"></span> people per house)</p>
+	<canvas id="game" width="1300px" height="700px"></canvas>
 	<div id="bottom">
 	<div id="metrics">
 	<h3>Parameters</h3>
