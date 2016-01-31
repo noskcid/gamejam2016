@@ -106,6 +106,7 @@
 		var god_mouseover = 0;
 		var background_audio;
 		var mine_audio;
+		var hungry_audio;
 
 		function loadImages() {
 			cupid_img = new Image();
@@ -223,7 +224,22 @@
 			mine_audio = new Audio('Audio/Toby - Oggs/DownTheMinesIGo.ogg');
 
 			god_pos_audio = new Array();
-			god_pos_audio[0] = new Audio();
+			god_pos_audio[0] = new Audio('Audio/gods/hades_g.ogg');
+			god_pos_audio[1] = new Audio('Audio/gods/cupid_g.ogg');
+			god_pos_audio[2] = new Audio('Audio/gods/loki_g.ogg');
+			god_pos_audio[3] = new Audio('Audio/gods/thor_g.ogg');
+			god_pos_audio[4] = new Audio('Audio/gods/athena_g.ogg');
+
+			god_neg_audio = new Array();
+			god_neg_audio[0] = new Audio('Audio/gods/hades_b.ogg');
+			god_neg_audio[1] = new Audio('Audio/gods/cupid_b.ogg');
+			god_neg_audio[2] = new Audio('Audio/gods/loki_b.ogg');
+			god_neg_audio[3] = new Audio('Audio/gods/thor_b.ogg');
+			god_neg_audio[4] = new Audio('Audio/gods/athena_b.ogg');
+
+			hungry_audio = new Audio('Audio/Toby - Oggs/WereStarvingHere.ogg');
+
+
 		}
 
 		function playClip(audio) {
@@ -302,8 +318,8 @@
 
 		function playGodAudio() {
 			g_temp = [g_Hades, g_Cupid, g_Loki, g_Thor, g_Athena];
-			audio_tracker = (audio_tracker + 1) % god_audio_pos.length;
-			audioOnChange(g_temp[audio_tracker],god_audio_pos[audio_tracker], god_audio_neg[audio_tracker]);
+			audio_tracker = (audio_tracker + 1) % god_pos_audio.length;
+			audioOnChange(g_temp[audio_tracker],god_pos_audio[audio_tracker], god_neg_audio[audio_tracker]);
 			/*
 			switch(audio_tracker) {
 				case 0:
@@ -319,6 +335,12 @@
 			}
 			
 			*/
+		}
+
+		function playPeasantAudio() {
+			if (r_food < 1) {
+				playClip(hungry_audio);
+			}
 		}
 
 		function mouse(e) {
@@ -429,38 +451,6 @@
 				context.drawImage(stone_img[2], centerX-tile_w/2, centerY+tile_h/2);
 			}
 
-			
-			//var pattern = context.createPattern(cupid_img, 'no-repeat');
-			
-
-			/*
-			context.beginPath();
-      		context.arc(100, 100, 100, 0, 2 * Math.PI, false);
-      		context.fillStyle = pattern;
-      		context.fill();
-      		context.lineWidth = 2;
-      		context.strokeStyle = '#000000';
-      		context.stroke();
-
-			context.drawImage(cupid_img2, 200,100);
-			*/
-
-			/*
-			context.save();
-    		context.beginPath();
-    		context.arc(25, 25, 25, 0, Math.PI * 2, true);
-    		context.closePath();
-    		context.clip();
-
-    		context.drawImage(cupid_img, 0, 0, 50, 50);
-
-    		context.beginPath();
-    		context.arc(0, 0, 25, 0, Math.PI * 2, true);
-    		context.clip();
-    		context.closePath();
-    		context.restore();
-			*/
-
 		}
 		
 		function drawGodBar() {
@@ -548,6 +538,16 @@
 			tileInterval = setInterval(function(){
 				drawTiles();
 			}, 200);
+
+			audioInterval = setInterval(function(){
+				playGodAudio();
+			}, 3000);
+
+			peasantAudioInterval = setInterval(function(){
+				playPeasantAudio();
+			}, 7000);
+
+
 
 			$('input.plus').click(function (event) {
 				if (available > 0) {
