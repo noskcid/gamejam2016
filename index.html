@@ -120,6 +120,7 @@
 		var mine_audio;
 		var hungry_audio;
 		var lumber_audio;
+		var doit_audio;
 
 		var interval;
 		var tileInterval;
@@ -271,6 +272,7 @@
 			god_neg_audio[4] = new Audio('Audio/gods/athena_b.ogg');
 
 			hungry_audio = new Audio('Audio/Toby - Oggs/WereStarvingHere.ogg');
+			doit_audio = new Audio('Audio/do_it.ogg');
 
 
 		}
@@ -513,15 +515,16 @@
 		function startGame() {
 			// Update every minute
 			interval = setInterval(function(){
-				last_cupid = g_Cupid;
-				last_loki = g_Loki;
-				last_hades = g_Hades;
-				last_thor = g_Thor;
-				last_athena = g_Athena;
-				update();
-				redraw();
-				drawGodBar();
-				if (game_over) {
+				if (!game_over) {
+					last_cupid = g_Cupid;
+					last_loki = g_Loki;
+					last_hades = g_Hades;
+					last_thor = g_Thor;
+					last_athena = g_Athena;
+					update();
+					redraw();
+					drawGodBar();
+				} else {
 					endGame();
 				}
 
@@ -543,7 +546,8 @@
 		}
 
 		function endGame() {
-			alert('Game Over');
+			alert("The Gods are displeased - Game Over. Final Population: *" + population + "*");
+			location.reload(true);
 		}
 
 		$(document).ready(function () {
@@ -665,6 +669,7 @@
 
 			$('#play').click(function () {
 				begin_div.style.visibility = 'hidden';
+				playClip(doit_audio);
 				startGame();
 			});
 
@@ -760,6 +765,59 @@
     <body>
 	<div class="overlay" id="start_box">
 		<h1>City of Clouded Kings</h1>
+		<div style="height:50%; overflow:scroll">
+		<p>
+			Welcome to City Of Clouded Kings. A game where careful city planning will keep your subjects fed and happy, try not to anger the gods though as they may punish you and destroy your city. </p>
+
+<p>
+Much like a ritual the order in which you do things is crucial in appeasing the gods and surviving for as long as possible.
+</p>
+
+<p>
+
+As mayor you are in command of 5 workers that you can assigned to different tasks as you wish. Your primary goal will be to grow your population by providing a constant supply of food to feed your city and collect wood and stone to build houses for your new citizens. Be careful that you don't run out of food as your citizens may starve to death. When you have stockpiled 15 wood and 10 stone a new house will automatically be built.
+
+</p>
+
+<p>
+
+Assigning workers to the other tasks will have the following effects:
+</p>
+
+<p>
+Brewery. Alcohol will be produced and your citizens will dishonour themselves in their drunkenness. Drunk citizens will find it easier to make babies and your population will grow faster. Alcohol has negative health effects though so your overall health of your citizens will decrease.
+</p>
+Apothecary. Workers will produce healing potions that help your population grow faster by healing the sick and the wounded.
+<p>
+Raid. You can send your citizens to pillage neighbouring villages for building resources. This will bring death and destruction to your city.
+</p>
+<p>
+Ritual. Find honour and peace in praising the gods, this also keeps your citizens out of mischief.
+</p>
+
+<p>
+Hades
+Hades, the guardian of the underworld wishes to see his undead horde grow. Appease Hades by causing as much death and destruction as you can and don't take your time and he is impatient.
+</p>
+<p>
+Cupid
+The God of love likes to see people happy and in love in a peaceful city. Please him by having a healthy population growth.
+</p>
+<p>
+Loki
+Loki revels in mischief and enjoys seeing others cause mischief in his name. He detests honour and peace as this gets in the way of what he stands for.
+</p>
+
+<p>
+Thor
+Thor considers himself honourable, and above childish distraction, and will respect these traits in your population. He also loves the excitement of war.
+</p>
+<p>
+Athena 
+Athena hates everything that breaks the peace. Keep your populous orderly, and collecting resources for buildings, to keep her happy.
+</p>
+		</div>
+		</p>
 		<input id="play" type="submit" value="Play">
 	</div>
 	<div id="game_area">
