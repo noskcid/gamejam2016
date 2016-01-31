@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>Immortals</title>
+        <title>City of Clouded Kings</title>
 	<style>
 		canvas {
 			display: block;
@@ -62,15 +62,16 @@
     		width: 50%; 
 		}
 
-		#overlay1 {
+		.overlay {
 			margin: auto;
 			position: absolute;
-			top: 50px; left: 50px;
-			bottom: 50px; right: 50px;
-			background-color: #000;
+			top: 25%; left: 25%;
+			bottom: 25%; right: 25%;
+			background-color:rgba(0, 0, 0, 0.5);
 			color: #FFF;
-			visibility: hidden;
 			z-index:5;
+			padding: 20px;
+			text-align: center;
 		}
 	</style>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
@@ -119,6 +120,13 @@
 		var mine_audio;
 		var hungry_audio;
 		var lumber_audio;
+
+		var interval;
+		var tileInterval;
+		var audioInterval;
+		var peasantAudioInterval;
+
+		var begin_div;
 		
 		var pos_audio;
 		
@@ -502,8 +510,45 @@
 		loadImages();
 		loadAudio();
 
+		function startGame() {
+			// Update every minute
+			interval = setInterval(function(){
+				last_cupid = g_Cupid;
+				last_loki = g_Loki;
+				last_hades = g_Hades;
+				last_thor = g_Thor;
+				last_athena = g_Athena;
+				update();
+				redraw();
+				drawGodBar();
+				if (game_over) {
+					endGame();
+				}
+
+			}, 1000);
+			
+			tileInterval = setInterval(function(){
+				drawTiles();
+				drawGodBar();
+			}, 200);
+
+			audioInterval = setInterval(function(){
+				playGodAudio();
+			}, 3000);
+
+			peasantAudioInterval = setInterval(function(){
+				playPeasantAudio();
+			}, 7000);
+
+		}
+
+		function endGame() {
+			alert('Game Over');
+		}
+
 		$(document).ready(function () {
 			canvas = document.getElementById('game');
+			begin_div = document.getElementById('start_box');
 			context = canvas.getContext("2d");
 			canvasW = 1000;
 			canvasH = 700;
@@ -559,32 +604,7 @@
 			// Grid height correction for Colour
 			//$("#colour").height($("#rain").height());
 
-			// Update every minute
-			interval = setInterval(function(){
-				last_cupid = g_Cupid;
-				last_loki = g_Loki;
-				last_hades = g_Hades;
-				last_thor = g_Thor;
-				last_athena = g_Athena;
-				update();
-				redraw();
-				drawGodBar();
-
-			}, 1000);
 			
-			tileInterval = setInterval(function(){
-				drawTiles();
-				drawGodBar();
-			}, 200);
-
-			audioInterval = setInterval(function(){
-				playGodAudio();
-			}, 3000);
-
-			peasantAudioInterval = setInterval(function(){
-				playPeasantAudio();
-			}, 7000);
-
 
 
 			$('input.plus').click(function (event) {
@@ -642,6 +662,12 @@
 				
 				
 			});
+
+			$('#play').click(function () {
+				begin_div.style.visibility = 'hidden';
+				startGame();
+			});
+
 
 			$('input.minus').click(function (event) {
 				if (event.target.id == 'brewery') {
@@ -732,7 +758,10 @@
 	</script>
     </head>
     <body>
-	<div id="overlay1">your content</div>
+	<div class="overlay" id="start_box">
+		<h1>City of Clouded Kings</h1>
+		<input id="play" type="submit" value="Play">
+	</div>
 	<div id="game_area">
 	<p>Year: <span id="year"></span> Population: <span id="pop"></span> Number of houses: <span id="houses"></span> (<span id="num_per_house"></span> people per house)</p>
 	<canvas id="game" width="1300px" height="700px"></canvas>
