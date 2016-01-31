@@ -561,14 +561,16 @@
 
 			// Update every minute
 			interval = setInterval(function(){
-				last_cupid = g_Cupid;
-				last_loki = g_Loki;
-				last_hades = g_Hades;
-				last_thor = g_Thor;
-				last_athena = g_Athena;
-				update();
-				redraw();
-				drawGodBar();
+				if (game_over == 0) {
+					last_cupid = g_Cupid;
+					last_loki = g_Loki;
+					last_hades = g_Hades;
+					last_thor = g_Thor;
+					last_athena = g_Athena;
+					update();
+					redraw();
+					drawGodBar();
+				}
 
 			}, 1000);
 			
