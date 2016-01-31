@@ -110,15 +110,15 @@
 
 		function loadImages() {
 			cupid_img = new Image();
-			cupid_img.src = "images/gods/resized/cupid_cropped.jpg";
+			cupid_img.src = "images/gods/resized/cupid_cropped2.png";
 			loki_img = new Image();
-			loki_img.src = "images/gods/resized/loki_cropped.jpg";
+			loki_img.src = "images/gods/resized/loki_cropped2.png";
 			hades_img = new Image();
-			hades_img.src = "images/gods/resized/hades_cropped.jpg";
+			hades_img.src = "images/gods/resized/hades_cropped2.png";
 			thor_img = new Image();
-			thor_img.src = "images/gods/resized/thor_cropped.jpg";
+			thor_img.src = "images/gods/resized/thor_cropped2.png";
 			athena_img = new Image();
-			athena_img.src = "images/gods/resized/athena_cropped.jpg";
+			athena_img.src = "images/gods/resized/athena_cropped2.png";
 
 			tile_img = new Image();
 			tile_img.src = "images/tile.png";
@@ -278,15 +278,17 @@
 			var pattern = ct.createPattern(img, 'repeat');
 			ct.beginPath();
       		ct.arc(x, y, r, 0, 2 * Math.PI, false);
-      		ct.fillStyle = pattern;
+      		ct.fillStyle = "black";
       		ct.fill();
-      		ct.lineWidth = 5;
+      		ct.lineWidth = 10;
 			if (god_mouseover == 0) {
       			ct.strokeStyle = '#6f97af';
 			} else {
 				ct.strokeStyle = '#000000';
 			}
       		ct.stroke();
+      		
+      		context.drawImage(img, x-50, y-50);
 
 			ct.beginPath();
       		ct.arc(x+r*0.8, y+r*0.8, r/3, 0, 2 * Math.PI, false);
