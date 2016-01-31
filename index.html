@@ -91,6 +91,12 @@
 		var raid_img;
 		var stone_img;
 		var wood_img;
+
+		var last_cupid;
+		var last_thor;
+		var last_loki;
+		var last_hades;
+		var last_athena;
 		
 		
 		var god_mouseover = 0;
@@ -243,7 +249,12 @@
 
 		}
 
-		function drawGod(ct, img, x, y, r) {
+		function drawGod(ct, img, x, y, r, meter, last) {
+			var meter_rnd = Math.floor(meter/10);
+			var last_rnd = Math.floor(last/10);
+			console.log("god");
+			console.log(meter);
+			console.log(last);
 			var pattern = ct.createPattern(img, 'repeat');
 			ct.beginPath();
       		ct.arc(x, y, r, 0, 2 * Math.PI, false);
@@ -259,7 +270,13 @@
 
 			ct.beginPath();
       		ct.arc(x+r*0.8, y+r*0.8, r/3, 0, 2 * Math.PI, false);
-      		ct.fillStyle = yellowGradient;
+			if (meter == last) {
+      			ct.fillStyle = yellowGradient;
+			} else if (meter > last) {
+				ct.fillStyle = "#00cc00";
+			} else {
+				ct.fillStyle = "#cc0000";
+			}
       		ct.fill();
       		ct.lineWidth = 4;
       		ct.strokeStyle = '#6f97af';
@@ -267,7 +284,7 @@
 			
 			ct.fillStyle = '#000000';
 			ct.font = "16px Arial";
-			ct.fillText("+0",x+r*0.8-6,y+r*0.8+5);
+			ct.fillText(meter_rnd,x+r*0.8-6,y+r*0.8+5);
 
 		}
 
@@ -415,11 +432,11 @@
 		
 		function drawGodBar() {
 			context.clearRect(0, 0, canvasW, 110);
-			drawGod(context,cupid_img,55,55,50);
-			drawGod(context,loki_img,155,55,50);
-			drawGod(context,hades_img,255,55,50);
-			drawGod(context,thor_img,355,55,50);
-			drawGod(context,athena_img,455,55,50);
+			drawGod(context,cupid_img,55,55,50,g_Cupid,last_cupid);
+			drawGod(context,loki_img,155,55,50,g_Loki,last_loki);
+			drawGod(context,hades_img,255,55,50,g_Hades,last_hades);
+			drawGod(context,thor_img,355,55,50,g_Thor,last_thor);
+			drawGod(context,athena_img,455,55,50,g_Athena,last_athena);
 		}
 		
 		loadImages();
@@ -484,8 +501,15 @@
 
 			// Update every minute
 			interval = setInterval(function(){
+				last_cupid = g_Cupid;
+				last_loki = g_Loki;
+				last_hades = g_Hades;
+				last_thor = g_Thor;
+				last_athena = g_Athena;
 				update();
 				redraw();
+				drawGodBar();
+
 			}, 1000);
 			
 			tileInterval = setInterval(function(){
