@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>Immortals</title>
+        <title>City of Clouded Kings</title>
 	<style>
 		canvas {
 			display: block;
@@ -61,6 +61,18 @@
     		display: table-cell;
     		width: 50%; 
 		}
+
+		.overlay {
+			margin: auto;
+			position: absolute;
+			top: 25%; left: 25%;
+			bottom: 25%; right: 25%;
+			background-color:rgba(0, 0, 0, 0.5);
+			color: #FFF;
+			z-index:5;
+			padding: 20px;
+			text-align: center;
+		}
 	</style>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 	<script src="js/engine.js"></script>
@@ -107,6 +119,19 @@
 		var background_audio;
 		var mine_audio;
 		var hungry_audio;
+		var lumber_audio;
+		var doit_audio;
+
+		var interval;
+		var tileInterval;
+		var audioInterval;
+		var peasantAudioInterval;
+
+		var begin_div;
+		
+		var pos_audio;
+		
+		var mute_audio = 0;
 
 		function loadImages() {
 			cupid_img = new Image();
@@ -222,6 +247,15 @@
 			background_audio.play();
 
 			mine_audio = new Audio('Audio/Toby - Oggs/DownTheMinesIGo.ogg');
+			lumber_audio = new Audio('Audio/Toby - Oggs/YeahICouldBeALumberjack.ogg');
+			
+			pos_audio = new Array();
+			pos_audio[0] = new Audio('Audio/Toby - Oggs/Alright.ogg');
+			pos_audio[1] = new Audio('Audio/Toby - Oggs/AlrightBoss.ogg');
+			pos_audio[2] = new Audio('Audio/Toby - Oggs/AlrightGuvnor.ogg');
+			pos_audio[3] = new Audio('Audio/Toby - Oggs/ConsiderItDone.ogg');
+			pos_audio[4] = new Audio('Audio/Toby - Oggs/HaveItYourWay.ogg');
+			pos_audio[5] = new Audio('Audio/Toby - Oggs/OnItMate.ogg');
 
 			god_pos_audio = new Array();
 			god_pos_audio[0] = new Audio('Audio/gods/hades_g.ogg');
@@ -238,6 +272,7 @@
 			god_neg_audio[4] = new Audio('Audio/gods/athena_b.ogg');
 
 			hungry_audio = new Audio('Audio/Toby - Oggs/WereStarvingHere.ogg');
+			doit_audio = new Audio('Audio/do_it.ogg');
 
 
 		}
@@ -248,15 +283,15 @@
 		}
 		
 		function redraw() {
-			$("#p_death").text(p_death);
-			$("#p_birth").text(p_birth);
-			$("#p_healing").text(p_healing);
-			$("#p_peace").text(p_peace);
-			$("#p_war").text(p_war);
-			$("#p_construction").text(p_construction);
-			$("#p_destruction").text(p_destruction);
-			$("#p_honor").text(p_honor);
-			$("#p_mischief").text(p_mischief);
+			$("#p_death").text(parseFloat(10*p_death).toFixed(0));
+			$("#p_birth").text(parseFloat(10*p_birth).toFixed(0));
+			$("#p_healing").text(parseFloat(10*p_healing).toFixed(0));
+			$("#p_peace").text(parseFloat(10*p_peace).toFixed(0));
+			$("#p_war").text(parseFloat(10*p_war).toFixed(0));
+			$("#p_construction").text(parseFloat(10*p_construction).toFixed(0));
+			$("#p_destruction").text(parseFloat(10*p_destruction).toFixed(0));
+			$("#p_honor").text(parseFloat(10*p_honor).toFixed(0));
+			$("#p_mischief").text(parseFloat(10*p_mischief).toFixed(0));
 
 			$("#r_wood").text(parseFloat(r_wood).toFixed(0));	
 			$("#r_stone").text(parseFloat(r_stone).toFixed(0));
@@ -272,7 +307,13 @@
 
 		}
 
-		function drawGod(ct, img, x, y, r, meter, last) {
+		function godSpeaking(god_index) {
+			if (!god_pos_audio[god_index].paused || !god_neg_audio[god_index].paused) {
+				return 1;
+			}
+		}
+
+		function drawGod(ct, img, x, y, r, meter, last, god_index) {
 			var meter_rnd = Math.floor(meter/10);
 			var last_rnd = Math.floor(last/10);
 			var pattern = ct.createPattern(img, 'repeat');
@@ -285,6 +326,10 @@
       			ct.strokeStyle = '#6f97af';
 			} else {
 				ct.strokeStyle = '#000000';
+			}
+			
+			if (godSpeaking(god_index)) {
+				ct.strokeStyle = '#FFFFFF';
 			}
       		ct.stroke();
       		
@@ -457,18 +502,57 @@
 		
 		function drawGodBar() {
 			context.clearRect(0, 0, canvasW, 110);
-			drawGod(context,cupid_img,55,55,50,g_Cupid,last_cupid);
-			drawGod(context,loki_img,155,55,50,g_Loki,last_loki);
-			drawGod(context,hades_img,255,55,50,g_Hades,last_hades);
-			drawGod(context,thor_img,355,55,50,g_Thor,last_thor);
-			drawGod(context,athena_img,455,55,50,g_Athena,last_athena);
+			drawGod(context,cupid_img,55,55,50,g_Cupid,last_cupid,1);
+			drawGod(context,loki_img,155,55,50,g_Loki,last_loki,2);
+			drawGod(context,hades_img,255,55,50,g_Hades,last_hades,0);
+			drawGod(context,thor_img,355,55,50,g_Thor,last_thor,3);
+			drawGod(context,athena_img,455,55,50,g_Athena,last_athena,4);
 		}
 		
 		loadImages();
 		loadAudio();
 
+		function startGame() {
+			// Update every minute
+			interval = setInterval(function(){
+				if (!game_over) {
+					last_cupid = g_Cupid;
+					last_loki = g_Loki;
+					last_hades = g_Hades;
+					last_thor = g_Thor;
+					last_athena = g_Athena;
+					update();
+					redraw();
+					drawGodBar();
+				} else {
+					endGame();
+				}
+
+			}, 1000);
+			
+			tileInterval = setInterval(function(){
+				drawTiles();
+				drawGodBar();
+			}, 200);
+
+			audioInterval = setInterval(function(){
+				playGodAudio();
+			}, 3000);
+
+			peasantAudioInterval = setInterval(function(){
+				playPeasantAudio();
+			}, 7000);
+
+		}
+
+		function endGame() {
+			alert("The Gods are displeased - Game Over. Final Population: *" + population + "*");
+			location.reload(true);
+		}
+
 		$(document).ready(function () {
 			canvas = document.getElementById('game');
+			begin_div = document.getElementById('start_box');
 			context = canvas.getContext("2d");
 			canvasW = 1000;
 			canvasH = 700;
@@ -524,52 +608,45 @@
 			// Grid height correction for Colour
 			//$("#colour").height($("#rain").height());
 
-			// Update every minute
-			interval = setInterval(function(){
-				last_cupid = g_Cupid;
-				last_loki = g_Loki;
-				last_hades = g_Hades;
-				last_thor = g_Thor;
-				last_athena = g_Athena;
-				update();
-				redraw();
-				drawGodBar();
-
-			}, 1000);
 			
-			tileInterval = setInterval(function(){
-				drawTiles();
-			}, 200);
-
-			audioInterval = setInterval(function(){
-				playGodAudio();
-			}, 3000);
-
-			peasantAudioInterval = setInterval(function(){
-				playPeasantAudio();
-			}, 7000);
-
 
 
 			$('input.plus').click(function (event) {
-				if (available > 0) {
+				if (event.target.id == 'mute') {
+					console.log(mute_audio);
+					if (mute_audio == 0) {
+						background_audio.pause();
+						mute_audio = 1;
+					}
+					else {
+						background_audio.play();
+						mute_audio = 0;
+					}
+				}
+				else if (available > 0) {
+					var x = randomIntFromInterval(0, 5);
 					if (event.target.id == 'brewery') {
+						playClip(pos_audio[x]);
 						j_brewery += 0.1;
 						$("#j_brewery").text(parseFloat(j_brewery*10).toFixed(0));	
 					}
 					else if (event.target.id == 'apothecary') {
+						playClip(pos_audio[x]);
 						j_apothecary += 0.1;
 						$("#j_apothecary").text(parseFloat(j_apothecary*10).toFixed(0));
 					}
 					else if (event.target.id == 'raid') {
+						playClip(pos_audio[x]);
 						j_raid += 0.1;
 						$("#j_raid").text(parseFloat(j_raid*10).toFixed(0));
 					}
 					else if (event.target.id == 'worship') {
+						playClip(pos_audio[x]);
 						j_worship += 0.1;
 						$("#j_worship").text(parseFloat(j_worship*10).toFixed(0));
 					}
 					else if (event.target.id == 'woodcutter') {
+						playClip(lumber_audio);
 						j_woodcutter += 0.1;
 						$("#j_woodcutter").text(parseFloat(j_woodcutter*10).toFixed(0));
 					}
@@ -579,12 +656,23 @@
 						$("#j_stoneMason").text(parseFloat(j_stoneMason*10).toFixed(0));
 					}
 					else if (event.target.id == 'farmer') {
+						playClip(pos_audio[x]);
 						j_farmer += 0.1;
 						$("#j_farmer").text(parseFloat(j_farmer*10).toFixed(0));
 					}
 					available -= 1;
 				}
+				
+				
+				
 			});
+
+			$('#play').click(function () {
+				begin_div.style.visibility = 'hidden';
+				playClip(doit_audio);
+				startGame();
+			});
+
 
 			$('input.minus').click(function (event) {
 				if (event.target.id == 'brewery') {
@@ -640,6 +728,11 @@
 			});
 		
 		});
+		
+		function randomIntFromInterval(min,max)
+		{
+			return Math.floor(Math.random()*(max-min+1)+min);
+		}
 
 		function resize() {
 			console.log("RESIZE");
@@ -670,6 +763,65 @@
 	</script>
     </head>
     <body>
+	<div class="overlay" id="start_box">
+		<h1>City of Clouded Kings</h1>
+		<div style="height:50%; overflow:scroll">
+		<p>
+			Welcome to City Of Clouded Kings. A game where careful city planning will keep your subjects fed and happy, try not to anger the gods though as they may punish you and destroy your city. </p>
+
+<p>
+Much like a ritual the order in which you do things is crucial in appeasing the gods and surviving for as long as possible.
+</p>
+
+<p>
+
+As mayor you are in command of 5 workers that you can assigned to different tasks as you wish. Your primary goal will be to grow your population by providing a constant supply of food to feed your city and collect wood and stone to build houses for your new citizens. Be careful that you don't run out of food as your citizens may starve to death. When you have stockpiled 15 wood and 10 stone a new house will automatically be built.
+
+</p>
+
+<p>
+
+Assigning workers to the other tasks will have the following effects:
+</p>
+
+<p>
+Brewery. Alcohol will be produced and your citizens will dishonour themselves in their drunkenness. Drunk citizens will find it easier to make babies and your population will grow faster. Alcohol has negative health effects though so your overall health of your citizens will decrease.
+</p>
+Apothecary. Workers will produce healing potions that help your population grow faster by healing the sick and the wounded.
+<p>
+Raid. You can send your citizens to pillage neighbouring villages for building resources. This will bring death and destruction to your city.
+</p>
+<p>
+Ritual. Find honour and peace in praising the gods, this also keeps your citizens out of mischief.
+</p>
+
+<p>
+Hades
+Hades, the guardian of the underworld wishes to see his undead horde grow. Appease Hades by causing as much death and destruction as you can and don't take your time and he is impatient.
+</p>
+<p>
+Cupid
+The God of love likes to see people happy and in love in a peaceful city. Please him by having a healthy population growth.
+</p>
+<p>
+Loki
+Loki revels in mischief and enjoys seeing others cause mischief in his name. He detests honour and peace as this gets in the way of what he stands for.
+</p>
+
+<p>
+Thor
+Thor considers himself honourable, and above childish distraction, and will respect these traits in your population. He also loves the excitement of war.
+</p>
+<p>
+Athena 
+Athena hates everything that breaks the peace. Keep your populous orderly, and collecting resources for buildings, to keep her happy.
+</p>
+
+<img src="images/splash.png" width="50%">
+		</div>
+		</p>
+		<input id="play" type="submit" value="Play">
+	</div>
 	<div id="game_area">
 	<p>Year: <span id="year"></span> Population: <span id="pop"></span> Number of houses: <span id="houses"></span> (<span id="num_per_house"></span> people per house)</p>
 	<canvas id="game" width="1300px" height="700px"></canvas>
@@ -754,7 +906,7 @@
 		<input class="minus" id="raid" type="submit" value="-">
 	</p>
 	<p>
-		Worship: 
+		Perform Rituals: 
 		<input class="plus" id="worship" type="submit" value="+">
 		<span id="j_worship">0</span>
 		<input class="minus" id="worship" type="submit" value="-">
@@ -776,6 +928,10 @@
 		<input class="plus" id="farmer" type="submit" value="+">
 		<span id="j_farmer">0</span>
 		<input class="minus" id="farmer" type="submit" value="-">
+	</p>
+	<p>
+		Mute song: 
+		<input class="plus" id="mute" type="submit" value="+">
 	</p>
 
 	</div>
