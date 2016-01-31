@@ -92,12 +92,16 @@
 		var stone_img;
 		var wood_img;
 
-		var last_cupid;
+		var audio_tracker = 0;
+
+		var last_cupid; 
 		var last_thor;
 		var last_loki;
 		var last_hades;
 		var last_athena;
-		
+
+		var god_pos_audio;
+		var god_neg_audio;
 		
 		var god_mouseover = 0;
 		var background_audio;
@@ -217,6 +221,9 @@
 			background_audio.play();
 
 			mine_audio = new Audio('Audio/Toby - Oggs/DownTheMinesIGo.ogg');
+
+			god_pos_audio = new Array();
+			god_pos_audio[0] = new Audio();
 		}
 
 		function playClip(audio) {
@@ -283,6 +290,35 @@
 			ct.font = "16px Arial";
 			ct.fillText(meter_rnd,x+r*0.8-6,y+r*0.8+5);
 
+		}
+
+		function audioOnChange(g, pos_audio, neg_audio) {
+			if (g > 50) {
+				playClip(pos_audio);	
+			} else if (g < -50){
+				playClip(neg_audio);
+			}
+		}
+
+		function playGodAudio() {
+			g_temp = [g_Hades, g_Cupid, g_Loki, g_Thor, g_Athena];
+			audio_tracker = (audio_tracker + 1) % god_audio_pos.length;
+			audioOnChange(g_temp[audio_tracker],god_audio_pos[audio_tracker], god_audio_neg[audio_tracker]);
+			/*
+			switch(audio_tracker) {
+				case 0:
+					audioOnChange(g_Hades, hades_audio_pos, hades_audio_neg);					
+				case 1:
+					audioOnChange(g_Cupid, cupid_audio_pos, cupid_audio_neg);
+				case 2:
+					audioOnChange(g_Loki, loki_audio_pos, loki_audio_neg);
+				case 3:
+					audioOnChange(g_Thor, thor_audio_pos, thor_audio_neg);
+				case 4:
+					audioOnChange(g_Athena, athena_audio_pos, athena_audio_neg);
+			}
+			
+			*/
 		}
 
 		function mouse(e) {
