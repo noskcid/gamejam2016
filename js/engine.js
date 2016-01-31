@@ -39,16 +39,17 @@ var g_Athena = 0;
 var population = 2;
 var population_CAP = 10;
 var year = 0;
-
+var houses = 1;
 
 // Constants
-var FOOD_COST = 0.1;
+var FOOD_COST = 0.15;
 var GENERAL_SEXUAL_ACTIVITY = 0.1;
-var HOUSE_WOOD_COST = 3;
-var HOUSE_STONE_COST = 3;
+var HOUSE_WOOD_COST = 15;
+var HOUSE_STONE_COST = 10;
 var WOOD_LIMIT = 99;
 var STONE_LIMIT = 99;
 var FOOD_LIMIT = 99;
+var POP_PER_HOUSE = 6;
 
 
 function update() {
@@ -72,35 +73,44 @@ function updateParameters() {
 }
 
 function updateResources() {
-	r_wood += j_woodcutter + j_raid;
+	r_wood += j_woodcutter*3 + j_raid*2;
 	if (r_wood > WOOD_LIMIT){
 		r_wood = WOOD_LIMIT;
 	}
 
-	r_stone += j_stoneMason + j_raid;
+	r_stone += j_stoneMason*3 + j_raid*2;
 	if (r_stone > STONE_LIMIT){
 		r_stone = STONE_LIMIT;
 	}
 
-	r_food += j_farmer - FOOD_COST;
+	r_food += j_farmer*5 - FOOD_COST*5;
 	if (r_food > FOOD_LIMIT){
 		r_food = FOOD_LIMIT;
+	}
+	else if (r_food < 0) {
+		r_food = 0;
 	}
 }
 
 function updatePopulation() {
 	if ((r_wood >= HOUSE_WOOD_COST) && (r_stone >= HOUSE_STONE_COST)) {
-		population_CAP += 2;
+		houses++;
 		r_wood -= HOUSE_WOOD_COST;
 		r_stone -= HOUSE_STONE_COST;
 	}
 
-	if (r_food < 0) {
+	if (r_food <= 0) {
 		if (p_death <= 0.5) {
 			p_death = 0.5
 		}
-	} else if (population <= population_CAP){
-		population += p_birth - p_death + p_healing + GENERAL_SEXUAL_ACTIVITY;
+	} 
+	
+	if (population <= houses*POP_PER_HOUSE){
+		population += 3*(p_birth - p_death + p_healing + GENERAL_SEXUAL_ACTIVITY);
+		
+		if (population < 0) {
+			population = 0;
+		}
 	}
 }
 
