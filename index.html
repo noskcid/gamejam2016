@@ -6,26 +6,30 @@
 	<style>
 		canvas {
 			display: block;
-			background-color: rgba(251, 238, 206, 1);
-			background-image: url("images/olympus.jpg");
 			padding-left: 0;
 			padding-right: 0;
 			margin-left: auto;
 			margin-right: auto;
+			float: left;
+		}
+
+		body {
+			margin: 0;
+			background-image: url("images/olympus.jpg");
 		}
 
 		#game_area {
 			display: block;
-			background-color: rgba(251, 238, 206, 1);
-			padding: 5px;
-			margin-left: auto;
-			margin-right: auto;
-			width: 1300px;
+			margin-left: 0;
+			margin-right: 0;
+			width: 100%;
 		}
 
 		#bottom {
 			overflow: hidden;
 			padding: 50px 50px 50px 50px;
+			background-color: #6f97af;
+			opacity: 0.7;
 		}
 
 		#metrics {
@@ -421,7 +425,7 @@
 		$(document).ready(function () {
 			canvas = document.getElementById('game');
 			context = canvas.getContext("2d");
-			canvasW = 1300;
+			canvasW = 1000;
 			canvasH = 700;
 			centerX = canvasW / 2;
       		centerY = canvasH / 2;
@@ -573,10 +577,29 @@
 		
 		});
 
-		$(window).on("load", function() {
-    		console.log("All images loaded");
+		function resize() {
+			console.log("RESIZE");
+			var C = 1;
+			var W_TO_H = 2.5/1;
+
+			var viewportWidth = window.innerWidth;
+			var viewportHeight = window.innerHeight;
+			var canvasWidth = viewportWidth * C;
+			var canvasHeight = canvasWidth / W_TO_H;
+			canvas.setAttribute("width", canvasWidth);
+			canvas.setAttribute("height", canvasHeight);
 			drawGodBar();
 			drawTiles();
+		}
+
+		$(window).on("load", function() {
+    		console.log("All images loaded");
+			resize();
+			drawGodBar();
+			drawTiles();
+		});
+		$(window).on("resize", function() {
+			resize();
 		});
 
 		
@@ -584,8 +607,8 @@
     </head>
     <body>
 	<div id="game_area">
-	<p>Year: <span id="year"></span> Population: <span id="pop"></span></p>
-	<canvas id="game" width="1300px" height="700px"></canvas>
+	Year: <span id="year"></span> Population: <span id="pop"></span>
+	<canvas id="game" width="1000px" height="700px"></canvas>
 	<div id="bottom">
 	<div id="metrics">
 	<h3>Parameters</h3>
